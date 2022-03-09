@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div>
-      ©  2021 MoovieTime. All rights reserved.
+      ©  2022 MoovieTime. All rights reserved.
     </div>
     <div>
       <img src=".././assets/moovietime-logo-grey.svg" alt="movie icon">
@@ -26,11 +26,10 @@ export default {
   bottom:0;
   background-color: #15191e;
   height: 160px;
-  width: 100vw;
+  width: 1440px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  font-family: Montserrat;
   font-style: normal;
   font-weight: normal;
   font-size: 1rem;

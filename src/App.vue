@@ -1,7 +1,9 @@
 <template>
-  <topbar/>
-  <router-view />
-  <Footer/>
+  <div class="wrapper">
+    <topbar/>
+    <router-view />
+    <Footer/>
+  </div>
 </template>
 
 <script>
@@ -31,7 +33,10 @@ export default {
 body{
   background-color: #1e232a ;
 }
-
+.wrapper{
+  width: 1440px;
+  margin: auto;
+}
 * {
   margin: 0;
   padding: 0;
