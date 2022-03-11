@@ -20,23 +20,23 @@
           </label>
         </div>
       </div>
-
     </div>
+
       <div class="discover-card">
-        <div v-for="item in 14" :key="item" class="cards">
-          <img lazy height="330"  src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/action-movie-poster-template-design-0f5fff6262fdefb855e3a9a3f0fdd361_screen.jpg?ts=1636996054" alt="freedom">
-          <div>
-            <h5>wonder woman</h5>
-            <h6>2020</h6>
-          </div>
+        <div v-for="item in discoverMovie" :key="item" class="cards">
+          <MovieCard :movie="item" />
         </div>
       </div>
   </div>
 </template>
 
 <script>
+  import MovieCard from "@/components/MovieCard";
+  import {mapActions,mapState} from "vuex";
 
 export default {
+  components: {MovieCard},
+
   name: 'FilterAndCard',
   data() {
     return {
@@ -65,16 +65,32 @@ export default {
         'Horror'
       ]
     }
-  }
+  },
+  mounted() {
+    this.getDiscoverMovie()
+  },
+  methods: {
+    ...mapActions([
+      'getDiscoverMovie'
+    ]),
+    onMovie() {
+      console.log('masuk pak eko')
+    }
+  },
+  computed: {
+    ...mapState([
+      'discoverMovie'
+    ])
+  },
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .discover-filter-card-container {
   margin-top: 50px;
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: 1.5fr 5fr;
+  grid-template-columns: 1.35fr 5.5fr;
   //5 coloums
   .discover-filter{
     height: 586px;
@@ -117,9 +133,7 @@ export default {
         //}
         input{
           float: right;
-
         }
-
         label{
           display: block;
           text-align: left;
@@ -134,9 +148,30 @@ export default {
   .discover-card{
     display: flex;
     flex-wrap: wrap;
-    background-color: plum;
     .cards{
-      margin: 5px;
+      width: 220px;
+      margin: 0 .6em .7em 0.6em;
+      .img-container{
+        width: 220px;
+        height: 330px;
+        img{
+          margin-bottom: 0.7em;
+        }
+      }
+      .card-sub{
+        h5{
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 600;
+          letter-spacing: 0em;
+        }
+        h6{
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          letter-spacing: 0em;
+        }
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <div class="footer">
     <div class="c1">
       ©  2022 MoovieTime. All rights reserved.
     </div>
@@ -9,7 +9,7 @@
     <div class="c3">
       Made with vue 3
     </div>
-  </footer>
+  </div>
 </template>
 
 <script>

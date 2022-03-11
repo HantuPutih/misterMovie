@@ -30,7 +30,6 @@ export default {
   components: {FilterAndCard},
   data() {
     return {
-      checkedNames: [],
 
     }
   }
@@ -40,8 +39,6 @@ export default {
 <style lang="scss" scoped>
 .slider {
   background-color: plum;
-  //position: absolute;
-  //width: 1440px;
   height: 428px;
   margin-top: 2em;
 }
@@ -53,14 +50,11 @@ export default {
 }
 .discover {
   margin-top: -20em;
-  //background: rgba(255, 255, 255, 0.05);
   width: 1440px;
-  //height: 333px;
   display: flex;
   justify-content: center;
   .discover-base{
     margin-top: 90px;
-    //position: absolute;
     width: 1220px;
 
     z-index: 1;

@@ -39,7 +39,7 @@ body{
 }
 
 article{
-  padding-bottom: 160px;
+  /*padding-bottom: 160px;*/
   width: 1440px;
   margin: auto;
 }
