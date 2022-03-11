@@ -18,7 +18,11 @@ export default createStore({
   actions: {
     async getDiscoverMovie(context, payload) {
       // try {
-        const { data } = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&language=en-US&sort_by=popularity.asc`)
+        const { data } = await axios({
+          url: `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&language=en-US&sort_by=popularity.asc`,
+          method: 'GET',
+          params: payload,
+        })
       context.commit('SET_DISCOVER_MOVIE', data.results)
       console.log(data)
       // } catch (e) {

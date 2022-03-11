@@ -8,9 +8,14 @@
         <img class="search-logo" height="15" src=".././assets/search-icon.svg" alt="moovietime logo">
       </div>
       <div class="nav-container">
-        <router-link class="categories" to="/"> <img height="20" src=".././assets/grid-icon.svg" alt="moovietime logo">CATEGORIES</router-link>
-        <div class="dropdown-menu">
-          <router-link v-for="categorie in categories" :key="categorie" to="/">{{categorie}}</router-link>
+        <div class="hover-dropdown">
+          <router-link class="categories" to="/">
+            <img height="20" src=".././assets/grid-icon.svg" alt="moovietime logo">
+            CATEGORIES
+          </router-link>
+          <div class="dropdown-menu">
+            <router-link v-for="category in categories" :key="category" to="/">{{category}}</router-link>
+          </div>
         </div>
         <router-link class="movies" to="/">MOVIES</router-link>
         <router-link class="shows" to="/">TV SHOWS</router-link>
@@ -94,7 +99,7 @@ export default {
         opacity: 0;
         position: absolute;
         background-color: white;
-        margin-top: 35em;
+        margin-top:1em;
         min-width: 153px;
         z-index: 1;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
@@ -123,7 +128,7 @@ export default {
       }
     }
 
-    .nav-container:hover .dropdown-menu {
+    .hover-dropdown:hover .dropdown-menu {
       visibility: visible;
       opacity: 1;
       transition: all .3s linear;

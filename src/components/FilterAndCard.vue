@@ -43,7 +43,6 @@ export default {
       selectedGenre: [],
       sortBys:
         [
-          'Popularity',
           'Popularity Ascending',
           'Popularity Descending',
           'Release Date Ascending',
@@ -67,6 +66,9 @@ export default {
     }
   },
   mounted() {
+    let payload = {
+
+    }
     this.getDiscoverMovie()
   },
   methods: {
@@ -154,9 +156,7 @@ export default {
       .img-container{
         width: 220px;
         height: 330px;
-        img{
-          margin-bottom: 0.7em;
-        }
+        margin-bottom: 0.7em;
       }
       .card-sub{
         h5{

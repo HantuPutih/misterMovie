@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <footer class="footer-container">
     <div class="c1">
       ©  2022 MoovieTime. All rights reserved.
     </div>
@@ -9,7 +9,7 @@
     <div class="c3">
       Made with vue 3
     </div>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default {
 
 <style lang="scss" scoped>
 
-.footer{
+.footer-container{
   bottom:0;
   background-color: #15191e;
   height: 160px;
