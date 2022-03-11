@@ -22,38 +22,19 @@ export default {
 <style lang="scss" scoped>
 
 .footer{
-  position:absolute;
-  bottom:0;
+  //position:absolute;
+  //bottom:0;
   background-color: #15191e;
   height: 160px;
   width: 1440px;
   display: grid;
   column-gap: 50px;
-  //display: flex;
   align-items: center;
-  //justify-content: space-evenly;
   font-style: normal;
   font-weight: normal;
-  font-size: 1rem;
+  font-size: 13px;
   color: #929292;
-  .c1 {
-    grid-column: 1/2;
-    text-align: center;
-    //grid-template-columns: repeat(4, 1fr);
-  }
-  .c2 {
-    grid-column:  2/3;
-    text-align: center;
-    //grid-template-columns: repeat(4, 1fr);
-
-
-  }
-  .c3 {
-    grid-column:  3/4;
-    text-align: center;
-    //grid-template-columns: repeat(4, 1fr);
-
-
-  }
+  text-align: center;
+  grid-template-columns: repeat(3, 1fr);
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div class="wrapper">
+<!--  <div class="wrapper">-->
     <topbar/>
     <router-view />
     <Footer/>
-  </div>
+<!--  </div>-->
 </template>
 
 <script>
@@ -20,7 +20,7 @@ export default {
 }
 </script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;900&display=swap');
 #app {
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -31,11 +31,17 @@ export default {
   /*margin-top: 60px;*/
 }
 body{
-  background-color: #1e232a ;
-}
-.wrapper{
+  background-color: #1e232a;
+  height:100vh; margin:0;
   width: 1440px;
   margin: auto;
+  display:flex;
+  flex-direction: column;
+  color: #E5E5E5;
+}
+
+footer{
+  margin-top: 100vh;
 }
 * {
   margin: 0;
