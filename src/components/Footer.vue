@@ -22,11 +22,10 @@ export default {
 <style lang="scss" scoped>
 
 .footer{
-  //position:absolute;
-  //bottom:0;
+  bottom:0;
   background-color: #15191e;
   height: 160px;
-  width: 1440px;
+  width: 100%;
   display: grid;
   column-gap: 50px;
   align-items: center;

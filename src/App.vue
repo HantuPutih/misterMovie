@@ -1,13 +1,10 @@
 <template>
-<!--  <div class="wrapper">-->
-    <topbar/>
-    <router-view />
-    <Footer/>
-<!--  </div>-->
+  <topbar/>
+  <router-view />
+  <Footer/>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 
 import Topbar from "@/components/TopBar";
 import Footer from "@/components/Footer";
@@ -32,17 +29,22 @@ export default {
 }
 body{
   background-color: #1e232a;
-  height:100vh; margin:0;
-  width: 1440px;
-  margin: auto;
+  height:100vh;
+  margin:0;
+
+
   display:flex;
   flex-direction: column;
   color: #E5E5E5;
 }
 
-footer{
-  margin-top: 100vh;
+article{
+  padding-bottom: 160px;
+  width: 1440px;
+  margin: auto;
 }
+
+
 * {
   margin: 0;
   padding: 0;

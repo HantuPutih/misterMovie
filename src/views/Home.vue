@@ -3,6 +3,7 @@
     <div class="slider">
       SLIDER
     </div>
+    <div class="discover-background"></div>
     <div class="discover">
       <div class="discover-base">
         <div class="discover-header">
@@ -15,15 +16,7 @@
             <p> 0 Movies</p>
           </div>
         </div>
-
-        <div class="discover-filter-card-container">
-          <div class="discover-filter">
-            filter
-          </div>
-          <div class="discover-card">
-            card
-          </div>
-        </div>
+        <FilterAndCard/>
       </div>
     </div>
   </article>
@@ -31,32 +24,45 @@
 
 <script>
 
+import FilterAndCard from "@/components/FilterAndCard";
 export default {
   name: 'home',
+  components: {FilterAndCard},
+  data() {
+    return {
+      checkedNames: [],
+
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .slider {
   background-color: plum;
-  position: absolute;
-  width: 1440px;
+  //position: absolute;
+  //width: 1440px;
   height: 428px;
-  top: 122px;
+  margin-top: 2em;
 }
-
-.discover {
-  position: relative;
-  top: 530px;
+.discover-background{
   background: rgba(255, 255, 255, 0.05);
   width: 1440px;
   height: 333px;
-
+  margin-top: 5em;
+}
+.discover {
+  margin-top: -20em;
+  //background: rgba(255, 255, 255, 0.05);
+  width: 1440px;
+  //height: 333px;
+  display: flex;
+  justify-content: center;
   .discover-base{
-    //padding: 90px 0px 0px 125px;
-    width: 90%;
-    position: relative;
-    width: 1440px;
+    margin-top: 90px;
+    //position: absolute;
+    width: 1220px;
+
     z-index: 1;
     .discover-header {
       width: 100%;
@@ -86,9 +92,6 @@ export default {
       }
     }
 
-    .discover-filter-card-container {
-
-    }
   }
 }
 
