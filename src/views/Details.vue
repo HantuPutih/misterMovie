@@ -1,17 +1,20 @@
 <template>
   <article>
     <div class="img-backdrop">
-      <img height="810" width="1440" src="" alt="backdrop">
+      <img  lazy height="400" width="1440" :src="`https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`" alt="backdrop">
+    </div>
+      <div class="gray-info-bar"></div>
+    <div class="overview-wrapper">
       <div class="overview">
         <div class="movie-img-container">
-          <img height="330" width="220" src="" alt="image">
+          <img lazy height="330" width="220" :src="`https://image.tmdb.org/t/p/original/${movieDetails.poster_path}`" alt="image">
         </div>
         <div class="title-container">
           <h4 class="year">
-            2020
+            {{movieDetails.release_date?.split('-')[0]}}
           </h4>
           <h1 class="big-title">
-            Wonder Woman 1984
+            {{movieDetails.original_title}}
           </h1>
           <h6 class="genre">
             Fantasy, Action, Adventure
@@ -19,27 +22,28 @@
         </div>
         <div class="movie-info">
           <div class="rating">
-            ⭐ &nbsp; 7.0
+            ⭐ {{movieDetails.vote_average}}
           </div>
-          <div class="user-score">
-            <p>user score</p>
-            <p>3333 votes</p>
+          <div class="movie-info-text user-score">
+            <p class="sub-title">user score</p>
+            <p class="sub-content">{{movieDetails.vote_count}} votes</p>
           </div>
-          <div class="status">
-            <p>STATUS</p>
-            <p>REELEASED</p>
+          <div class="movie-info-text status">
+            <p class="sub-title">STATUS</p>
+            <p class="sub-content">{{movieDetails.status}}</p>
           </div>
-          <div class="lang">
-            <p>LANGUAGE</p>
-            <p>english</p>
+          <div class="movie-info-text lang">
+            <p class="sub-title">LANGUAGE</p>
+            <p v-for="(lang,idx) in movieDetails.spoken_languages" :key="idx" class="sub-content">{{lang.english_name}}</p>
           </div>
-          <div class="bugdet">
-            <p>BUDGET</p>
-            <p>$200.000.000.000</p>
+          <div class="movie-info-text bugdet">
+            <p class="sub-title">BUDGET</p>
+            <p class="sub-content">${{thousandSeparator(movieDetails.budget)}}</p>
           </div>
-          <div class="production">
-            <p>PRODUCTION</p>
-            <p>DC Entertainment</p>
+          <div class="movie-info-text production">
+            <p class="sub-title">PRODUCTION</p>
+            <p class="sub-title">PRODUCTION</p>
+<!--            <p v-for="(company, idx) in movieDetails.production_companies" :key="idx" class="sub-content text-production">{{company.name}}</p>-->
           </div>
         </div>
         <div class="movie-overview">
@@ -51,35 +55,38 @@
           </p>
         </div>
       </div>
-
-<!--      <div class="reviews">-->
-<!--        <div class="reviews-title">-->
-<!--          <h2>REVIEWS</h2>-->
-<!--        </div>-->
-<!--        <div class="review-card">-->
-<!--          <div class="profile-container">-->
-<!--            <div class="profile">-->
-<!--              <div class="profile-img">-->
-<!--                img-->
-<!--              </div>-->
-<!--              <h5>-->
-<!--                SWITCH.-->
-<!--              </h5>-->
-<!--              <h6>-->
-<!--                December 18, 2020-->
-<!--              </h6>-->
-<!--            </div>-->
-<!--            <div class="review-rating">-->
-<!--              ⭐ 7.0-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="reviewer-text">-->
-<!--            <p>-->
-<!--              It isn't as easy as saying 'Wonder Woman 1984' is a good or bad movie. The pieces are there, and there are moments I adore, but it does come across as a bit of a mess, even though the action sequences are breathtaking. If you're a fan of the original film, you'll be more willing to take the ride, but for those more indifferent, it may be a bit of a blander sit. If you can and are planning to watch it, the theatrical experience is the way to go - there is nothing like seeing these stunning sets, fun action scenes and hearing Zimmer's jaw-dropping score like on the big screen. - Chris dos Santos... read the rest.-->
-<!--            </p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div class="reviews">
+        <div class="reviews-title">
+          <h2>REVIEWS</h2>
+        </div>
+        <div class="review-card">
+          <div class="profile-container">
+            <div class="profile">
+              <div class="profile-img">
+              </div>
+              <div class="name-container">
+                <h5>
+                  SWITCH.
+                </h5>
+                <h6>
+                  December 18, 2020
+                </h6>
+              </div>
+            </div>
+            <div class="review-rating">
+              ⭐
+              <h3>
+                7.0
+              </h3>
+            </div>
+          </div>
+          <div class="reviewer-text">
+            <p>
+              It isn't as easy as saying 'Wonder Woman 1984' is a good or bad movie. The pieces are there, and there are moments I adore, but it does come across as a bit of a mess, even though the action sequences are breathtaking. If you're a fan of the original film, you'll be more willing to take the ride, but for those more indifferent, it may be a bit of a blander sit. If you can and are planning to watch it, the theatrical experience is the way to go - there is nothing like seeing these stunning sets, fun action scenes and hearing Zimmer's jaw-dropping score like on the big screen. - Chris dos Santos... read the rest.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </article>
 </template>
@@ -90,50 +97,218 @@ import {mapActions, mapState} from "vuex";
 export default {
   name: 'detailspage',
   mounted() {
-    // this.getMovieDetails(this.$route.params.id)
+    this.getMovieDetails(this.$route.params.id)
+  },
+  computed:{
+    ...mapState([
+      'movieDetails'
+    ])
   },
   methods: {
     ...mapActions([
       'getMovieDetails'
       ]
-
-    )
+    ),
+    thousandSeparator(num = 0){
+      if (num) {
+        var num_parts = num.toString().split(".");
+        num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return num_parts.join(",");
+      }
+    }
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .img-backdrop{
-  background-color: plum;
-  //height:810px;
+  height:810px;
   width:1440px;
+  //background: rgba(0, 0, 0, 0.1) url("https://image.tmdb.org/t/p/original//srYya1ZlI97Au4jUYAktDe3avyA.jpg");
+  background-size: 1440px 400px;
+  img{
+    z-index: 0;
+    opacity: 0.2;
+    object-fit: cover;
+    object-position: 0px 0px;
+    //background: rgba(0, 0, 0, 0.2);
+  }
+
+}
+.gray-info-bar{
+  width: 1440px;
+  height: 80px;
+  //background-color: transparent;
+  background: rgba(0, 0, 0, 1);
+  margin-top: -30.5em;
+  margin-bottom: 30.5em;
+}
+.overview-wrapper{
+  z-index: 99;
+  //margin-top: 30em;
+  //  margin-bottom: 30.5em;
+  //background-color: #FFFFFF;
+  opacity: 1;
+
+
   .overview{
-    margin-top: 300px;
+    margin-top: -49.5em;
+    margin-bottom: 20.5em;
+    align-items: center;
+    padding: 100px;
     display: grid;
-    gap: 10px;
-    grid-template-areas: ". title-container title-container"
-                         " movie-img-container movie-info movie-info"
-                         ". movie-overview movie-overview";
+    gap: 1em;
     grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: 0.5fr 1fr;
+    grid-template-columns: 250px 2fr 0.3fr;
+    grid-template-areas: "movie-img-container title-container ."
+                         "movie-img-container movie-info ."
+                         "movie-img-container movie-overview .";
     .movie-img-container {
-      background-color: red;
+      margin-left: 2em;
+      filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.25));
+      background-color: gray;
       height:330px;
       width:220px;
       grid-area: movie-img-container;
     }
     .title-container{
-      background-color: #E74C3C;
+      margin-left: 1em;
       grid-area: title-container;
+      h4{
+        font-weight: 500;
+        font-size: 18px;
+        color: #FFFFFF;
+      }
+      h1{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 36px;
+        color: #E5E5E5;
+      }
+      h6{
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        color: #FFFFFF;
+      }
     }
     .movie-info{
       grid-area: movie-info;
-      background-color: #A9FFC6;
       display: flex;
+      justify-content: space-between;
+      .rating{
+        font-weight: 600;
+        font-size: 36px;
+        color: #E5E5E5;
+      }
+      .movie-info{
+        .sub-title{
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 500;
+        }
+        .sub-title{
+          font-style: normal;
+          font-weight: 500;
+          font-size: 12px;
+          color: #FFFFFF;
+        }
+      }
+      .status{
+
+      }
+      .lang{
+
+      }
+      .bugdet{
+
+      }
+      .production{
+        .text-production{
+          overflow: auto;
+        }
+      }
     }
     .movie-overview{
       grid-area: movie-overview;
-      background-color: yellowgreen;
+      .overview-title{
+        font-weight: 600;
+        font-size: 14px;
+        color: #FF0000;
+      }
+      .overview-text{
+        font-weight: 400;
+        font-size: 14px;
+        color: #000000;
+        padding-right: 15em;
+      }
+    }
+  }
+  .reviews{
+    margin-top: -34.5em;
+    background-color: white;
+    padding: 10em 130px 5em 130px;
+    .reviews-title{
+    margin-bottom: 1em;
+      h2{
+        font-size: 14px;
+        font-weight: 600;
+        color: #FF0000;
+      }
+    }
+    .review-card{
+      height: 259px;
+      width: 557px;
+      background: #F9F9F9;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 14px;
+      padding: 25px;
+
+      .profile-container{
+          display: flex;
+          justify-content: space-between;
+        .profile{
+          display: flex;
+          .profile-img{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: lightgrey;
+          }
+          .name-container{
+            h5{
+              font-size: 14px;
+              font-weight: 700;
+              color: #1E232A;
+            }
+            h6{
+              font-weight: 400;
+              font-size: 12px;
+              color:#666666;
+
+            }
+          }
+        }
+        .review-rating{
+          display: flex;
+          background: rgba(196, 196, 196, 0.28);
+          border-radius: 7px;
+          h3{
+            font-size: 36px;
+            font-weight: 600;
+            line-height: 44px;
+            color: #000000;
+          }
+        }
+      }
+
+      .reviewer-text{
+        font-size: 13px;
+        font-style: italic;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+      }
     }
   }
 }

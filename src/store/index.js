@@ -8,13 +8,14 @@ export default createStore({
       discoverMovie: [],
       genreList: [],
       mvMovieCount: 0,
-
+      movieDetails: {}
     }
   },
   mutations: {
     SET_DISCOVER_MOVIE: (state, payload) => state.discoverMovie = payload,
     SET_GENRE_LIST: (state, payload) => state.genreList = payload,
-    COUNT_PLUS_MY_MOVIE_COUNT: (state) => {state.mvMovieCount++}
+    COUNT_PLUS_MY_MOVIE_COUNT: (state) => {state.mvMovieCount++},
+    SET_MOVIE_DETAIL: (state, payload) => state.movieDetails = payload,
   },
   actions: {
     async getDiscoverMovie(context, payload) {
@@ -37,9 +38,9 @@ export default createStore({
 
       })
     },
-    getMovieDetails({commit},id){
-      let { data } = axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.VUE_APP_API_KEY}&language=en-US`)
-      console.log( data)
+    async getMovieDetails({commit},id){
+      let { data } = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.VUE_APP_API_KEY}&language=en-US`)
+      commit('SET_MOVIE_DETAIL', data)
 
     }
   }
