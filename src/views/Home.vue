@@ -12,11 +12,24 @@
             Discover Movies
           </h2>
           <div class="discover-my-movies">
-            <p >My Movies</p>
-            <p> 0 Movies</p>
+            <p class="my-movies">My Movies</p>
+            <p class="movie-counter">{{mvMovieCount}} Movies</p>
           </div>
         </div>
-        <FilterAndCard/>
+<!--        <FilterAndCard/>-->
+        <div class="discover-filter-card-container">
+          <FilterSearch/>
+          <div class="discover-card">
+            <div v-for="item in discoverMovie" :key="item" class="cards">
+              <Moviecard :movie="item" />
+            </div>
+            <div class="load-more">
+              <button>
+                Load More
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </article>
@@ -24,15 +37,40 @@
 
 <script>
 
-import FilterAndCard from "@/components/FilterAndCard";
+import FilterSearch from "@/components/FilterSearch";
+import Moviecard from "@/components/MovieCard";
+import {mapActions, mapState} from "vuex";
 export default {
   name: 'home',
-  components: {FilterAndCard},
+  components: {
+    Moviecard,
+    FilterSearch,
+  },
   data() {
     return {
 
     }
-  }
+  },
+  mounted() {
+    // let payload = {
+    //   language: 'en-US',
+    //   sort_by:
+    // }
+    this.getDiscoverMovie()
+    this.getMoviesGenre()
+  },
+  methods: {
+    ...mapActions([
+      'getDiscoverMovie',
+      'getMoviesGenre'
+    ]),
+  },
+  computed: {
+    ...mapState([
+      'discoverMovie',
+      'mvMovieCount'
+    ])
+  },
 }
 </script>
 
@@ -54,6 +92,7 @@ export default {
   display: flex;
   justify-content: center;
   .discover-base{
+
     margin-top: 90px;
     width: 1220px;
 
@@ -83,10 +122,49 @@ export default {
         grid-row: 2/3;
         display: flex;
         justify-content: right;
+        .my-movies{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: lighter;
+          margin-right: 1em;
+        }
+        .movie-counter{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 98px;
+          height: 32px;
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 32px;
+          font-size: 13px;
+          font-weight: 400;
+        }
+
       }
     }
 
+    .discover-filter-card-container {
+      margin-top: 50px;
+      display: grid;
+      grid-gap: 20px;
+      grid-template-columns: 1.35fr 5.5fr;
+      //5 coloums
+
+      .discover-card{
+        display: flex;
+        flex-wrap: wrap;
+        .cards{
+          width: 220px;
+          margin: 0 .6em .7em 0.6em;
+        }
+      }
+    }
   }
 }
+
+
 
 </style>
