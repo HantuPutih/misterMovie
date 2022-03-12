@@ -4,7 +4,7 @@
         <label for="sortBy">Sort Result By</label>
       </div>
       <div class="sortBySelect">
-        <select @input="inputSortBy" v-model="selectedSortBy" name="sortBy" id="sortBy">
+        <select @change="inputSortBy" v-model="selectedSortBy" name="sortBy" id="sortBy">
           <option v-for="(item,idx) in sortBys" :value="item.value" :key="idx">{{item.name}}</option>
         </select>
       </div>
@@ -13,9 +13,9 @@
       </div>
       <div class="genresSelect" >
         <div v-for="(genre, idx) in genres" :key="idx">
-          <input type="checkbox" :id="genre" class="mr-2" :value="genre" v-model="selectedGenre" />
-          <label :for="genre">
-            {{ genre }}
+          <input @change="inputGenre" type="checkbox" :id="genre.name" class="mr-2" :value="genre.id" v-model="selectedGenre" />
+          <label :for="genre.name">
+            {{ genre.name }}
           </label>
         </div>
       </div>
@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       selectedGenre: [],
-      selectedSortBy: 'popularity.asc',
+      selectedSortBy: 'popularity.desc',
       sortBys:
         [
           {
@@ -50,31 +50,99 @@ export default {
           },
           {
             name: 'Rating Ascending',
-            value: 'revenue.asc'
+            value: 'vote_count.asc'
           },
           {
             name: 'Rating Descending',
-            value: 'revenue.desc'
+            value: 'vote_count.desc'
           },
         ],
       genres: [
-        'Action',
-        'Adventure',
-        'Animation',
-        'Comedy',
-        'Crime',
-        'Documentary',
-        'Drama',
-        'Family',
-        'Fantasy',
-        'History',
-        'Horror'
+        {
+          "id": 28,
+          "name": "Action"
+        },
+        {
+          "id": 12,
+          "name": "Adventure"
+        },
+        {
+          "id": 16,
+          "name": "Animation"
+        },
+        {
+          "id": 35,
+          "name": "Comedy"
+        },
+        {
+          "id": 80,
+          "name": "Crime"
+        },
+        {
+          "id": 99,
+          "name": "Documentary"
+        },
+        {
+          "id": 18,
+          "name": "Drama"
+        },
+        {
+          "id": 10751,
+          "name": "Family"
+        },
+        {
+          "id": 14,
+          "name": "Fantasy"
+        },
+        {
+          "id": 36,
+          "name": "History"
+        },
+        {
+          "id": 27,
+          "name": "Horror"
+        },
+        // {
+        //   "id": 10402,
+        //   "name": "Music"
+        // },
+        // {
+        //   "id": 9648,
+        //   "name": "Mystery"
+        // },
+        // {
+        //   "id": 10749,
+        //   "name": "Romance"
+        // },
+        // {
+        //   "id": 878,
+        //   "name": "Science Fiction"
+        // },
+        // {
+        //   "id": 10770,
+        //   "name": "TV Movie"
+        // },
+        // {
+        //   "id": 53,
+        //   "name": "Thriller"
+        // },
+        // {
+        //   "id": 10752,
+        //   "name": "War"
+        // },
+        // {
+        //   "id": 37,
+        //   "name": "Western"
+        // }
       ]
     }
   },
   methods: {
     inputSortBy(){
-
+      this.$emit('emitSelectedSortBy', this.selectedSortBy)
+    },
+    inputGenre(){
+      this.$emit('emitSelectedGenre', this.selectedGenre)
     }
   }
 }

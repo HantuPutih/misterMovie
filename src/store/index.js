@@ -8,7 +8,8 @@ export default createStore({
     return {
       discoverMovie: [],
       genreList: [],
-      mvMovieCount: 0
+      mvMovieCount: 0,
+
     }
   },
   mutations: {
@@ -18,23 +19,19 @@ export default createStore({
   },
   actions: {
     async getDiscoverMovie(context, payload) {
-      // try {
-        const { data } = await axios({
-          url: `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&language=en-US&sort_by=popularity.asc&page=1`,
-          method: 'GET',
-          params: payload,
-        })
+      const { data } = await axios({
+        url: `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}`,
+        method: 'GET',
+        params: payload,
+      })
       context.commit('SET_DISCOVER_MOVIE', data.results)
-      // console.log(data)
-      // } catch (e) {
-      //   throw e
-      //   console.log(e)
-      // }
     },
     async getMoviesGenre({commit}, payload) {
       const { data } = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=en-US`)
       commit('SET_GENRE_LIST',data.genres)
-      // console.log(data.genres)
+    },
+    async searchMovie({commit}, payload) {
+      //https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
     }
   }
 })

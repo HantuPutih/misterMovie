@@ -156,6 +156,7 @@ export default {
     letter-spacing: 0em;
   }
   h6{
+    color: #929292;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;

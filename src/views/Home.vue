@@ -18,17 +18,18 @@
         </div>
 <!--        <FilterAndCard/>-->
         <div class="discover-filter-card-container">
-          <FilterSearch/>
+          <FilterSearch @emitSelectedSortBy="emitSelectedSortBy" @emitSelectedGenre="emitSelectedGenre"/>
           <div class="discover-card">
             <div v-for="item in discoverMovie" :key="item" class="cards">
               <Moviecard :movie="item" />
             </div>
-            <div class="load-more">
-              <button>
-                Load More
-              </button>
-            </div>
           </div>
+          <div class="btn-container">
+            <button @click="onLoadMore" class="load-more">
+              Load More
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
@@ -48,15 +49,16 @@ export default {
   },
   data() {
     return {
-
+      payloadQueryString: {
+        language: 'en-US',
+        page: 1
+        // sort_by: 'popularity.asc'
+        //with_genres
+      }
     }
   },
   mounted() {
-    // let payload = {
-    //   language: 'en-US',
-    //   sort_by:
-    // }
-    this.getDiscoverMovie()
+    this.filterDiscoverMovie()
     this.getMoviesGenre()
   },
   methods: {
@@ -64,6 +66,21 @@ export default {
       'getDiscoverMovie',
       'getMoviesGenre'
     ]),
+    emitSelectedSortBy(selected) {
+      this.payloadQueryString.sort_by = selected
+      this.filterDiscoverMovie()
+    },
+    emitSelectedGenre(arr){
+      this.payloadQueryString.with_genres = arr.join(',')
+      this.filterDiscoverMovie()
+    },
+    filterDiscoverMovie() {
+      this.getDiscoverMovie(this.payloadQueryString)
+    },
+    onLoadMore() {
+      this.payloadQueryString.page++
+      this.filterDiscoverMovie()()
+    }
   },
   computed: {
     ...mapState([
@@ -151,7 +168,30 @@ export default {
       display: grid;
       grid-gap: 20px;
       grid-template-columns: 1.35fr 5.5fr;
-      //5 coloums
+      .btn-container{
+        margin: 3em 0;
+        grid-column: 2/3;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .load-more{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #E5E5E5;
+          cursor: pointer;
+          border: none;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+
+          width: 151px;
+          height: 32px;
+          background: #FF0000;
+          border-radius: 32px;
+        }
+      }
 
       .discover-card{
         display: flex;
@@ -160,6 +200,7 @@ export default {
           width: 220px;
           margin: 0 .6em .7em 0.6em;
         }
+
       }
     }
   }
