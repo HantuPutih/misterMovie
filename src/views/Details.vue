@@ -51,7 +51,7 @@
             OVERVIEW
           </h5>
           <p class="overview-text">
-            Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah.
+            {{movieDetails.overview}}
           </p>
         </div>
       </div>
@@ -87,6 +87,13 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="recomendation-movies">
+      <h3>
+        RECOMMENDATION MOVIES
+      </h3>
+
     </div>
   </article>
 </template>
@@ -193,6 +200,7 @@ export default {
       }
     }
     .movie-info{
+      margin-left: 1em;
       grid-area: movie-info;
       display: flex;
       justify-content: space-between;
@@ -231,12 +239,15 @@ export default {
     }
     .movie-overview{
       grid-area: movie-overview;
+      margin-left: 1em;
       .overview-title{
         font-weight: 600;
         font-size: 14px;
         color: #FF0000;
       }
       .overview-text{
+
+        line-height: 200%;
         font-weight: 400;
         font-size: 14px;
         color: #000000;
@@ -258,7 +269,7 @@ export default {
     }
     .review-card{
       height: 259px;
-      width: 557px;
+      width: 550px;
       background: #F9F9F9;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
       border-radius: 14px;
@@ -267,6 +278,7 @@ export default {
       .profile-container{
           display: flex;
           justify-content: space-between;
+        margin-bottom: 1em;
         .profile{
           display: flex;
           .profile-img{
@@ -276,6 +288,7 @@ export default {
             background-color: lightgrey;
           }
           .name-container{
+            padding: .8em;
             h5{
               font-size: 14px;
               font-weight: 700;
@@ -293,6 +306,7 @@ export default {
           display: flex;
           background: rgba(196, 196, 196, 0.28);
           border-radius: 7px;
+          padding: 0.2em 0.5em;
           h3{
             font-size: 36px;
             font-weight: 600;
@@ -313,4 +327,7 @@ export default {
   }
 }
 
+.recomendation-movies {
+  height: 33em;
+}
 </style>
