@@ -4,8 +4,8 @@
       <img height="31" src=".././assets/moovietime-logo.svg" alt="moovietime logo">
       <div class="search-input">
         <img height="28" src=".././assets/movie-icon.svg" alt="moovietime logo">
-        <input type="text" placeholder="Find movie">
-        <img class="search-logo" height="15" src=".././assets/search-icon.svg" alt="moovietime logo">
+        <input  v-model="searchBox" type="text" placeholder="Find movie">
+        <img @click="onSearch" class="search-logo" height="15" src=".././assets/search-icon.svg" alt="moovietime logo">
       </div>
       <div class="nav-container">
         <div class="hover-dropdown">
@@ -27,12 +27,25 @@
 </template>
 
 <script>
-
+import _ from 'lodash'
 export default {
   name: 'topbar',
   data() {
     return {
+      searchBox: '',
       categories: ['ACTION', 'ADVENTURE', 'ANIMATION', 'COMEDY','CRIME', 'DOCUMENTARY', 'DRAMA', 'FAMILY', 'FANTASY', 'HISTORY', 'HORROR'],
+    }
+  },
+  methods: {
+    onSearch() {
+        console.log('de')
+      // _.debounce(() => {
+        // if (this.searchBox) {
+          // console.log(this.searchBox)
+          console.log('Debounce!')
+        // }
+      // }, 2000)
+
     }
   }
 }

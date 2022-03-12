@@ -43,7 +43,7 @@ export default {
   methods: {
     onAdd() {
       this.addText = 'ADDED'
-      this.$store.commit('COUNT_TPLUS_MY_MOVIE_COUNT')
+      this.$store.commit('COUNT_PLUS_MY_MOVIE_COUNT')
     },
     onMovie() {
       this.$router.push(`/details/${this.movie.id}`)
