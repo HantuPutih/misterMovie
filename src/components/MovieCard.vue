@@ -1,6 +1,11 @@
 <template>
   <div  class="img-container">
-    <img lazy height="330" width="220" :src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`" :alt="movie.title">
+    <div class="rating-overlay">
+      <img height="330" width="220" :src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`" :alt="movie.title">
+      <div class="rating-overlay-text">
+        {{movie.vote_average}}
+      </div>
+    </div>
     <div class="card-overlay">
       <div class="card-rating">⭐ &nbsp; {{movie.vote_average}}</div>
       <div class="card-genre">
@@ -74,6 +79,27 @@ export default {
   margin-bottom: 0.7em;
   transition: .3s ease;
   background: #000000CC;
+
+  .rating-overlay{
+    position: relative;
+    .rating-overlay-text{
+      background: rgba(30, 35, 43, 0.8);
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      font-style: normal;
+      font-weight: 700;
+      font-size: 18px;
+      color: #E5E5E5;
+      width: 48px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+  }
 
 
   .card-overlay {
@@ -156,14 +182,14 @@ export default {
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
-    letter-spacing: 0em;
+    letter-spacing: 0;
   }
   h6{
     color: #929292;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    letter-spacing: 0em;
+    letter-spacing: 0;
   }
 }
 .img-container:hover img{
@@ -172,5 +198,8 @@ export default {
 }
 .img-container:hover .card-overlay {
   opacity: 1;
+}
+.img-container:hover .rating-overlay .rating-overlay-text {
+ opacity: 0.5;
 }
 </style>

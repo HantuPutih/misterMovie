@@ -24,29 +24,26 @@
           <div class="rating">
             ⭐ {{movieDetails.vote_average}}
           </div>
-          <div class="movie-info-text user-score">
-            <p class="sub-title">user score</p>
+          <div class="movie-info-text right-border user-score">
+            <p class="sub-title">USER SCORE</p>
             <p class="sub-content">{{movieDetails.vote_count}} votes</p>
           </div>
-          <div class="movie-info-text status">
+          <div class="movie-info-text  right-border status">
             <p class="sub-title">STATUS</p>
             <p class="sub-content">{{movieDetails.status}}</p>
           </div>
-          <div class="movie-info-text lang">
+          <div class="movie-info-text  right-border lang">
             <p class="sub-title">LANGUAGE</p>
-<!--            <p class="sub-content">{{movieDetails.spoken_languages[0].english_name}}</p>-->
-            <p v-for="(lang,idx) in movieDetails.spoken_languages" :key="idx" class="sub-content">{{lang.english_name}}</p>
+            <p class="sub-content">{{movieDetails.spoken_languages?.length ? movieDetails.spoken_languages[0].english_name : '-'}}</p>
+<!--            <p v-for="(lang,idx) in movieDetails.spoken_languages" :key="idx" class="sub-content">{{lang.english_name}}</p>-->
           </div>
-          <div class="movie-info-text budget">
+          <div class="movie-info-text  right-border budget">
             <p class="sub-title">BUDGET</p>
             <p class="sub-content">${{thousandSeparator(movieDetails.budget)}}</p>
           </div>
           <div class="movie-info-text production">
             <p class="sub-title">PRODUCTION</p>
-
-<!--            <p class="sub-title">PRODUCTION</p>-->
-            <p v-for="(company, idx) in movieDetails.production_companies" :key="idx" class="sub-content text-production">{{company.name}}</p>
-<!--            <p class="sub-content text-production">{{movieDetails?.production_companies[0].name}}</p>-->
+            <p class="sub-content text-production">{{movieDetails.production_companies?.length ? movieDetails.production_companies[0].name : '-'}}</p>
           </div>
         </div>
         <div class="movie-overview">
@@ -104,7 +101,7 @@ export default {
     this.getMovieRecommendation(this.movieId)
     this.getMovieReviews(this.movieId)
     this.movieGenre = this.movieDetails.genres?.map(el => el.name).join(', ')
-    document.body.scrollTop = 0;
+    // document.body.scrollTop = 0;
 
   },
   watch: {
@@ -113,11 +110,14 @@ export default {
       immediate: true,
       handler() {
         if (this.$route.name === 'details') {
-
+          // this.$store.commit('SET_MOVIE_DETAIL', {})
+          // this.$store.commit('SET_MOVIE_RECOMMENDATION', [])
+          // this.$store.commit('SET_MOVIE_REVIEWS', [])
           this.getMovieDetails(this.$route.params.id)
           this.getMovieRecommendation(this.$route.params.id)
           this.getMovieReviews(this.movieId)
-          document.body.scrollTop = 0;
+          // document.body.scrollTop = 0;
+          this.$nextTick(() => this.$el.querySelector(".img-backdrop").scrollIntoView({block: 'center', behavior: "smooth" }))
         }
       }
     }
@@ -216,10 +216,9 @@ export default {
       }
     }
     .movie-info{
-      margin-left: 1em;
       grid-area: movie-info;
       display: grid;
-      grid-template-columns: repeat(6, 9em);
+      grid-template-columns: repeat(6, 8.5em);
       grid-template-rows: 1fr;
       .rating{
         display: flex;
@@ -231,19 +230,20 @@ export default {
 
       }
       //.user-score{
-      //  display: flex;
-      //  justify-content: center;
-      //  align-items: start;
-      //  flex-direction: column;
+      //  padding-left: 0 !important;
       //}
       .movie-info-text{
+        //overflow: auto;
+        //max-height: 6em;
+
         display: flex;
         justify-content: center;
-        align-items: start;
+
         flex-direction: column;
+        padding-left: 1em;
         .sub-title{
           color: rgba(255, 255, 255, 0.5);
-          font-size: 14px;
+          font-size: 12px;
           font-style: normal;
           font-weight: 500;
         }
@@ -256,6 +256,9 @@ export default {
           overflow: auto;
           max-height: 100px;
         }
+      }
+      .right-border{
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
       }
       .status{
 

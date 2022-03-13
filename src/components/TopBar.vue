@@ -1,7 +1,7 @@
 <template>
   <header :class="`nav-bar ${this.$route.name === 'details' ? 'transparent-nav' : ''}`">
     <div class="navbar-inner">
-      <img height="31" src=".././assets/moovietime-logo.svg" alt="moovietime logo">
+      <img @click="gohome" height="31" src=".././assets/moovietime-logo.svg" alt="moovietime logo">
       <div class="search-input">
         <img height="28" src=".././assets/movie-icon.svg" alt="moovietime logo">
         <input  v-model="searchBox" type="text" placeholder="Find movie">
@@ -38,13 +38,15 @@ export default {
   },
   mounted() {
     if (this.$route.name === 'details') {
-
       console.log(this.$route.name)
     }
   },
   methods: {
+    gohome() {
+      this.$router.push('/')
+    },
     onSearch() {
-        console.log('de')
+        console.log('de')-
       // _.debounce(() => {
         // if (this.searchBox) {
           // console.log(this.searchBox)
@@ -77,6 +79,7 @@ export default {
     display: grid;
     img{
       grid-column: 3/4;
+      cursor: pointer;
     }
     align-items: center;
 
