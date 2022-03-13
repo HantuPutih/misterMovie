@@ -30,7 +30,7 @@
           </div>
           <div class="movie-info-text  right-border status">
             <p class="sub-title">STATUS</p>
-            <p class="sub-content">{{movieDetails.status}}</p>
+            <p class="sub-content">{{movieDetails.status || '-'}}</p>
           </div>
           <div class="movie-info-text  right-border lang">
             <p class="sub-title">LANGUAGE</p>
@@ -39,7 +39,7 @@
           </div>
           <div class="movie-info-text  right-border budget">
             <p class="sub-title">BUDGET</p>
-            <p class="sub-content">${{thousandSeparator(movieDetails.budget)}}</p>
+            <p class="sub-content">${{thousandSeparator(movieDetails.budget) || '-'}}</p>
           </div>
           <div class="movie-info-text production">
             <p class="sub-title">PRODUCTION</p>

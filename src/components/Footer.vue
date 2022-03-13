@@ -1,13 +1,15 @@
 <template>
   <footer class="footer-container">
-    <div class="c1">
-      ©  2022 MoovieTime. All rights reserved.
-    </div>
-    <div class="c2">
-      <img src=".././assets/moovietime-logo-grey.svg" alt="movie icon">
-    </div>
-    <div class="c3">
-      Made with vue 3
+    <div class="footer-limit">
+      <div class="c1">
+        ©  2022 MoovieTime. All rights reserved.
+      </div>
+      <div class="c2">
+        <img src=".././assets/moovietime-logo-grey.svg" alt="movie icon">
+      </div>
+      <div class="c3">
+        Made with vue 3
+      </div>
     </div>
   </footer>
 </template>

@@ -46,7 +46,7 @@ export default {
       this.$router.push('/')
     },
     onSearch() {
-        console.log('de')-
+        console.log('de')
       // _.debounce(() => {
         // if (this.searchBox) {
           // console.log(this.searchBox)
