@@ -1,13 +1,13 @@
 <template>
   <article>
-    <div class="img-backdrop">
-      <img  lazy height="400" width="1440" :src="`https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`" alt="backdrop">
+    <div id="top-nav" class="img-backdrop">
+      <img height="480" width="1440" :src="`https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`" alt="backdrop">
     </div>
       <div class="gray-info-bar"></div>
     <div class="overview-wrapper">
       <div class="overview">
         <div class="movie-img-container">
-          <img lazy height="330" width="220" :src="`https://image.tmdb.org/t/p/original/${movieDetails.poster_path}`" alt="image">
+          <img height="330" width="220" :src="`https://image.tmdb.org/t/p/original/${movieDetails.poster_path}`" alt="image">
         </div>
         <div class="title-container">
           <h4 class="year">
@@ -16,8 +16,8 @@
           <h1 class="big-title">
             {{movieDetails.original_title}}
           </h1>
-          <h6 class="genre">
-            Fantasy, Action, Adventure
+          <h6  class="genre">
+            {{movieGenre}}
           </h6>
         </div>
         <div class="movie-info">
@@ -34,16 +34,19 @@
           </div>
           <div class="movie-info-text lang">
             <p class="sub-title">LANGUAGE</p>
+<!--            <p class="sub-content">{{movieDetails.spoken_languages[0].english_name}}</p>-->
             <p v-for="(lang,idx) in movieDetails.spoken_languages" :key="idx" class="sub-content">{{lang.english_name}}</p>
           </div>
-          <div class="movie-info-text bugdet">
+          <div class="movie-info-text budget">
             <p class="sub-title">BUDGET</p>
             <p class="sub-content">${{thousandSeparator(movieDetails.budget)}}</p>
           </div>
           <div class="movie-info-text production">
             <p class="sub-title">PRODUCTION</p>
-            <p class="sub-title">PRODUCTION</p>
-<!--            <p v-for="(company, idx) in movieDetails.production_companies" :key="idx" class="sub-content text-production">{{company.name}}</p>-->
+
+<!--            <p class="sub-title">PRODUCTION</p>-->
+            <p v-for="(company, idx) in movieDetails.production_companies" :key="idx" class="sub-content text-production">{{company.name}}</p>
+<!--            <p class="sub-content text-production">{{movieDetails?.production_companies[0].name}}</p>-->
           </div>
         </div>
         <div class="movie-overview">
@@ -59,33 +62,12 @@
         <div class="reviews-title">
           <h2>REVIEWS</h2>
         </div>
-        <div class="review-card">
-          <div class="profile-container">
-            <div class="profile">
-              <div class="profile-img">
-              </div>
-              <div class="name-container">
-                <h5>
-                  SWITCH.
-                </h5>
-                <h6>
-                  December 18, 2020
-                </h6>
-              </div>
-            </div>
-            <div class="review-rating">
-              ⭐
-              <h3>
-                7.0
-              </h3>
-            </div>
-          </div>
-          <div class="reviewer-text">
-            <p>
-              It isn't as easy as saying 'Wonder Woman 1984' is a good or bad movie. The pieces are there, and there are moments I adore, but it does come across as a bit of a mess, even though the action sequences are breathtaking. If you're a fan of the original film, you'll be more willing to take the ride, but for those more indifferent, it may be a bit of a blander sit. If you can and are planning to watch it, the theatrical experience is the way to go - there is nothing like seeing these stunning sets, fun action scenes and hearing Zimmer's jaw-dropping score like on the big screen. - Chris dos Santos... read the rest.
-            </p>
+        <div class="review-container">
+          <div v-for="(review, idx) in movieReviews" :key="idx" class="review-card">
+            <ReviewCard :review="review" />
           </div>
         </div>
+
       </div>
     </div>
 
@@ -93,34 +75,73 @@
       <h3>
         RECOMMENDATION MOVIES
       </h3>
-
+      <div class="discover-card">
+        <div v-for="item in movieRecommendation" :key="item" class="cards">
+          <Moviecard :movie="item" />
+        </div>
+      </div>
     </div>
   </article>
 </template>
 
 <script>
 import {mapActions, mapState} from "vuex";
+import Moviecard from "@/components/MovieCard";
+import ReviewCard from "@/components/ReviewCard";
 
 export default {
   name: 'detailspage',
-  mounted() {
-    this.getMovieDetails(this.$route.params.id)
+  components: {Moviecard,
+    ReviewCard},
+  data() {
+    return {
+      movieGenre: [],
+      movieId: this.$route.params.id
+    }
   },
+  mounted() {
+    this.getMovieDetails(this.movieId)
+    this.getMovieRecommendation(this.movieId)
+    this.getMovieReviews(this.movieId)
+    this.movieGenre = this.movieDetails.genres?.map(el => el.name).join(', ')
+    document.body.scrollTop = 0;
+
+  },
+  watch: {
+    '$route.params.id': {
+      deep: true,
+      immediate: true,
+      handler() {
+        if (this.$route.name === 'details') {
+
+          this.getMovieDetails(this.$route.params.id)
+          this.getMovieRecommendation(this.$route.params.id)
+          this.getMovieReviews(this.movieId)
+          document.body.scrollTop = 0;
+        }
+      }
+    }
+  },
+
   computed:{
     ...mapState([
-      'movieDetails'
+      'movieDetails',
+      'movieRecommendation',
+      'movieReviews'
     ])
   },
+
   methods: {
     ...mapActions([
-      'getMovieDetails'
-      ]
-    ),
+        'getMovieDetails',
+        'getMovieRecommendation',
+        'getMovieReviews'
+      ]),
     thousandSeparator(num = 0){
       if (num) {
-        var num_parts = num.toString().split(".");
-        num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        return num_parts.join(",");
+        let num_parts = num.toString().split(".");
+        num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return num_parts.join() +'.00';
       }
     }
   },
@@ -129,15 +150,15 @@ export default {
 
 <style lang="scss" scoped>
 .img-backdrop{
-  height:810px;
+  height:480px;
   width:1440px;
   //background: rgba(0, 0, 0, 0.1) url("https://image.tmdb.org/t/p/original//srYya1ZlI97Au4jUYAktDe3avyA.jpg");
-  background-size: 1440px 400px;
+  //background-size: 1440px 400px;
   img{
     z-index: 0;
     opacity: 0.2;
     object-fit: cover;
-    object-position: 0px 0px;
+    object-position: 0 0;
     //background: rgba(0, 0, 0, 0.2);
   }
 
@@ -145,19 +166,13 @@ export default {
 .gray-info-bar{
   width: 1440px;
   height: 80px;
-  //background-color: transparent;
   background: rgba(0, 0, 0, 1);
-  margin-top: -30.5em;
+  margin-top: -80px;
   margin-bottom: 30.5em;
 }
 .overview-wrapper{
-  z-index: 99;
-  //margin-top: 30em;
-  //  margin-bottom: 30.5em;
-  //background-color: #FFFFFF;
-  opacity: 1;
-
-
+  z-index: 2;
+  //opacity: 1;
   .overview{
     margin-top: -49.5em;
     margin-bottom: 20.5em;
@@ -165,11 +180,12 @@ export default {
     padding: 100px;
     display: grid;
     gap: 1em;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 6.2em 6.2em 6.2em;
     grid-template-columns: 250px 2fr 0.3fr;
     grid-template-areas: "movie-img-container title-container ."
                          "movie-img-container movie-info ."
                          "movie-img-container movie-overview .";
+                         //"movie-img-container movie-overview .";
     .movie-img-container {
       margin-left: 2em;
       filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.25));
@@ -202,24 +218,43 @@ export default {
     .movie-info{
       margin-left: 1em;
       grid-area: movie-info;
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(6, 9em);
+      grid-template-rows: 1fr;
       .rating{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-weight: 600;
         font-size: 36px;
         color: #E5E5E5;
+
       }
-      .movie-info{
+      //.user-score{
+      //  display: flex;
+      //  justify-content: center;
+      //  align-items: start;
+      //  flex-direction: column;
+      //}
+      .movie-info-text{
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        flex-direction: column;
         .sub-title{
-          font-size: 12px;
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 14px;
           font-style: normal;
           font-weight: 500;
         }
-        .sub-title{
+        .sub-content{
           font-style: normal;
           font-weight: 500;
-          font-size: 12px;
+          font-size: 13px;
           color: #FFFFFF;
+          text-transform: uppercase;
+          overflow: auto;
+          max-height: 100px;
         }
       }
       .status{
@@ -231,11 +266,12 @@ export default {
       .bugdet{
 
       }
-      .production{
-        .text-production{
-          overflow: auto;
-        }
-      }
+      //.production{
+      //  .text-production{
+      //    overflow: auto;
+      //    max-height: 80px;
+      //  }
+      //}
     }
     .movie-overview{
       grid-area: movie-overview;
@@ -246,12 +282,12 @@ export default {
         color: #FF0000;
       }
       .overview-text{
-
-        line-height: 200%;
+        line-height: 170%;
         font-weight: 400;
         font-size: 14px;
         color: #000000;
-        padding-right: 15em;
+        overflow: auto;
+        //padding-right: 15em;
       }
     }
   }
@@ -267,67 +303,38 @@ export default {
         color: #FF0000;
       }
     }
-    .review-card{
-      height: 259px;
-      width: 550px;
-      background: #F9F9F9;
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-      border-radius: 14px;
-      padding: 25px;
-
-      .profile-container{
-          display: flex;
-          justify-content: space-between;
-        margin-bottom: 1em;
-        .profile{
-          display: flex;
-          .profile-img{
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: lightgrey;
-          }
-          .name-container{
-            padding: .8em;
-            h5{
-              font-size: 14px;
-              font-weight: 700;
-              color: #1E232A;
-            }
-            h6{
-              font-weight: 400;
-              font-size: 12px;
-              color:#666666;
-
-            }
-          }
-        }
-        .review-rating{
-          display: flex;
-          background: rgba(196, 196, 196, 0.28);
-          border-radius: 7px;
-          padding: 0.2em 0.5em;
-          h3{
-            font-size: 36px;
-            font-weight: 600;
-            line-height: 44px;
-            color: #000000;
-          }
-        }
-      }
-
-      .reviewer-text{
-        font-size: 13px;
-        font-style: italic;
-        font-weight: 400;
-        line-height: 20px;
-        color: #000000;
+    .review-container{
+      display: grid;
+      gap: 3em;
+      grid-template-columns: 1fr 1fr;
+      .review-card{
+        min-height: 259px;
+        width: 520px;
+        background: #F9F9F9;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 14px;
+        padding: 25px;
       }
     }
   }
 }
 
 .recomendation-movies {
-  height: 33em;
+  padding: 3em 7em 3em 7em;
+  height: 29em;
+  h3{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5em;
+  }
+  .discover-card{
+    display: flex;
+    flex-wrap: wrap;
+    .cards{
+      width: 220px;
+      margin: 0 .6em .7em 0.6em;
+    }
+  }
 }
 </style>

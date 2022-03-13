@@ -1,5 +1,5 @@
 <template>
-  <header class="nav-bar">
+  <header :class="`nav-bar ${this.$route.name === 'details' ? 'transparent-nav' : ''}`">
     <div class="navbar-inner">
       <img height="31" src=".././assets/moovietime-logo.svg" alt="moovietime logo">
       <div class="search-input">
@@ -36,6 +36,12 @@ export default {
       categories: ['ACTION', 'ADVENTURE', 'ANIMATION', 'COMEDY','CRIME', 'DOCUMENTARY', 'DRAMA', 'FAMILY', 'FANTASY', 'HISTORY', 'HORROR'],
     }
   },
+  mounted() {
+    if (this.$route.name === 'details') {
+
+      console.log(this.$route.name)
+    }
+  },
   methods: {
     onSearch() {
         console.log('de')
@@ -52,7 +58,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.transparent-nav{
+  //z-index: 0;
+  //position: fixed;
+  //top: 0;
+  //opacity: 0.5;
+}
+
 .nav-bar{
+
   background-color: #292e35;
   width: 100%;
   display: flex;

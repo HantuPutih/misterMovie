@@ -16,7 +16,6 @@
             <p class="movie-counter">{{mvMovieCount}} Movies</p>
           </div>
         </div>
-<!--        <FilterAndCard/>-->
         <div class="discover-filter-card-container">
           <FilterSearch @emitSelectedSortBy="emitSelectedSortBy" @emitSelectedGenre="emitSelectedGenre"/>
           <div class="discover-card">
@@ -200,7 +199,6 @@ export default {
           width: 220px;
           margin: 0 .6em .7em 0.6em;
         }
-
       }
     }
   }

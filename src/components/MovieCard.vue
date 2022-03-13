@@ -2,7 +2,7 @@
   <div  class="img-container">
     <img lazy height="330" width="220" :src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`" :alt="movie.title">
     <div class="card-overlay">
-      <div class="card-rating">⭐ &nbsp;{{movie.vote_average}}</div>
+      <div class="card-rating">⭐ &nbsp; {{movie.vote_average}}</div>
       <div class="card-genre">
         <h4 v-for="(genre,idx) in movieGenre" :key="idx">{{genre.name}}</h4>
       </div>
@@ -46,6 +46,7 @@ export default {
       this.$store.commit('COUNT_PLUS_MY_MOVIE_COUNT')
     },
     onMovie() {
+      // console.log('masuk')
       this.$router.push(`/details/${this.movie.id}`)
     },
 
@@ -56,6 +57,8 @@ export default {
     ])
   },
   mounted() {
+    // document.body.scrollTop = 0;
+    // this.$nextTick(() => document.getElementById("#top-nav").scrollIntoView({block: 'center', behavior: "smooth" }))
     this.movieGenre = this.genreList.filter((genre)=> {
       return this.movie.genre_ids.includes(genre.id)
     })

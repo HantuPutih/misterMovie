@@ -8,19 +8,27 @@ export default createStore({
       discoverMovie: [],
       genreList: [],
       mvMovieCount: 0,
-      movieDetails: {}
+      movieDetails: {},
+      movieRecommendation:[],
+      movieReviews: []
     }
   },
   mutations: {
     SET_DISCOVER_MOVIE: (state, payload) => state.discoverMovie = payload,
     SET_GENRE_LIST: (state, payload) => state.genreList = payload,
-    COUNT_PLUS_MY_MOVIE_COUNT: (state) => {state.mvMovieCount++},
+    COUNT_PLUS_MY_MOVIE_COUNT: (state) => state.mvMovieCount++,
     SET_MOVIE_DETAIL: (state, payload) => state.movieDetails = payload,
+    SET_MOVIE_RECOMMENDATION: (state, payload) => state.movieRecommendation = payload,
+    SET_MOVIE_REVIEWS: (state, payload) => state.movieReviews = payload
   },
   actions: {
     async getDiscoverMovie(context, payload) {
+      payload = {
+        ...payload,
+        api_key: process.env.VUE_APP_API_KEY
+      }
       const { data } = await axios({
-        url: `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.VUE_APP_API_KEY}`,
+        url: `https://api.themoviedb.org/3/discover/movie`,
         method: 'GET',
         params: payload,
       })
@@ -34,14 +42,24 @@ export default createStore({
       //https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
       const {data} = await axios({
         method: 'GET',
-        url: `https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false`
+        url: `https://api.themoviedb.org/3/search/movie?api_key=<${process.env.VUE_APP_API_KEY}&language=en-US&page=1&include_adult=false`
 
       })
     },
+    //details page
     async getMovieDetails({commit},id){
       let { data } = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.VUE_APP_API_KEY}&language=en-US`)
       commit('SET_MOVIE_DETAIL', data)
-
+    },
+    async getMovieRecommendation({ commit }, id) {
+      const { data } = await axios.get(`https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.VUE_APP_API_KEY}&language=en-US`)
+      commit('SET_MOVIE_RECOMMENDATION', data.results.slice(0,5) )
+      // console.log(data.results.slice(0,4))
+    },
+    async getMovieReviews({commit}, id) {
+      const { data } = await axios.get(`
+https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.VUE_APP_API_KEY}`)
+      commit('SET_MOVIE_REVIEWS', data.results.slice(0,2))
     }
   }
 })
