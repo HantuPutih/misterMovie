@@ -2,7 +2,7 @@
   <div class="profile-container">
     <div class="profile">
       <div class="profile-img">
-        <img width="50"  height="50" :src="review.author_details?.avatar_path.slice(1, review.author_details.avatar_path.length-1)" alt="pp">
+        <img width="50"  height="50" :src="review.author_details.avatar_path?.slice(1, review.author_details.avatar_path.length-1)" alt="pp">
       </div>
       <div class="name-container">
         <h5>

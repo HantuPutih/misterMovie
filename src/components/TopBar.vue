@@ -24,7 +24,7 @@
             CATEGORIES
           </router-link>
           <div class="dropdown-menu">
-            <router-link v-for="category in categories" :key="category" to="/">{{category}}</router-link>
+            <router-link v-for="genre in genreList" :key="genre" to="/">{{genre.name}}</router-link>
           </div>
         </div>
         <router-link class="movies" to="/">MOVIES</router-link>
@@ -41,7 +41,7 @@
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css';
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import {mapActions, mapState} from "vuex";
-
+import _ from 'lodash'
 export default {
   name: 'topbar',
   components: {
@@ -58,15 +58,18 @@ export default {
     if (this.$route.name === 'details') {
       console.log(this.$route.name)
     }
+    this.getMoviesGenre()
   },
   computed: {
     ...mapState([
-      'searchResult'
+      'searchResult',
+      'genreList'
     ])
   },
   methods: {
     ...mapActions([
-      'searchMovie'
+      'searchMovie',
+      'getMoviesGenre'
     ]),
     onSelect(e) {
       this.$router.push(`/details/${e.id}`)
@@ -75,6 +78,12 @@ export default {
 
     },
     getItems(searchValue) {
+      // _.debounce(() => {
+      //   // if (searchValue.input) {
+      //     console.log(searchValue.input)
+      //     console.log('Debounce!')
+      //   // }
+      // }, 0)
       if (searchValue.input) {
         this.searchMovie(searchValue.input).then((_) => {
           this.searhItems = this.searchResult
@@ -84,6 +93,16 @@ export default {
     gohome() {
       this.$router.push('/')
     },
+    // onSearch() {
+    //   console.log('de')
+    //   _.debounce(() => {
+    //   if (this.searchBox) {
+    //   console.log(this.searchBox)
+    //   console.log('Debounce!')
+    //   }
+    //   }, 2000)
+    //
+    // }
   }
 }
 </script>

@@ -12,7 +12,7 @@
         <h3>Genres</h3>
       </div>
       <div class="genresSelect" >
-        <div v-for="(genre, idx) in genres" :key="idx">
+        <div v-for="(genre, idx) in genreList" :key="idx">
           <input @change="inputGenre" type="checkbox" :id="genre.name" class="mr-2" :value="genre.id" v-model="selectedGenre" />
           <label :for="genre.name">
             {{ genre.name }}
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
 
 export default {
   name: 'filtersearch',
@@ -58,50 +59,51 @@ export default {
           },
         ],
       genres: [
-        {
-          "id": 28,
-          "name": "Action"
-        },
-        {
-          "id": 12,
-          "name": "Adventure"
-        },
-        {
-          "id": 16,
-          "name": "Animation"
-        },
-        {
-          "id": 35,
-          "name": "Comedy"
-        },
-        {
-          "id": 80,
-          "name": "Crime"
-        },
-        {
-          "id": 99,
-          "name": "Documentary"
-        },
-        {
-          "id": 18,
-          "name": "Drama"
-        },
-        {
-          "id": 10751,
-          "name": "Family"
-        },
-        {
-          "id": 14,
-          "name": "Fantasy"
-        },
-        {
-          "id": 36,
-          "name": "History"
-        },
-        {
-          "id": 27,
-          "name": "Horror"
-        },
+        //sample data
+        // {
+        //   "id": 28,
+        //   "name": "Action"
+        // },
+        // {
+        //   "id": 12,
+        //   "name": "Adventure"
+        // },
+        // {
+        //   "id": 16,
+        //   "name": "Animation"
+        // },
+        // {
+        //   "id": 35,
+        //   "name": "Comedy"
+        // },
+        // {
+        //   "id": 80,
+        //   "name": "Crime"
+        // },
+        // {
+        //   "id": 99,
+        //   "name": "Documentary"
+        // },
+        // {
+        //   "id": 18,
+        //   "name": "Drama"
+        // },
+        // {
+        //   "id": 10751,
+        //   "name": "Family"
+        // },
+        // {
+        //   "id": 14,
+        //   "name": "Fantasy"
+        // },
+        // {
+        //   "id": 36,
+        //   "name": "History"
+        // },
+        // {
+        //   "id": 27,
+        //   "name": "Horror"
+        // },
         // {
         //   "id": 10402,
         //   "name": "Music"
@@ -136,6 +138,11 @@ export default {
         // }
       ]
     }
+  },
+  computed: {
+    ...mapState([
+      'genreList'
+    ])
   },
   methods: {
     inputSortBy(){
