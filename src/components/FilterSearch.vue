@@ -58,85 +58,6 @@ export default {
             value: 'vote_count.desc'
           },
         ],
-      genres: [
-        //sample data
-        // {
-        //   "id": 28,
-        //   "name": "Action"
-        // },
-        // {
-        //   "id": 12,
-        //   "name": "Adventure"
-        // },
-        // {
-        //   "id": 16,
-        //   "name": "Animation"
-        // },
-        // {
-        //   "id": 35,
-        //   "name": "Comedy"
-        // },
-        // {
-        //   "id": 80,
-        //   "name": "Crime"
-        // },
-        // {
-        //   "id": 99,
-        //   "name": "Documentary"
-        // },
-        // {
-        //   "id": 18,
-        //   "name": "Drama"
-        // },
-        // {
-        //   "id": 10751,
-        //   "name": "Family"
-        // },
-        // {
-        //   "id": 14,
-        //   "name": "Fantasy"
-        // },
-        // {
-        //   "id": 36,
-        //   "name": "History"
-        // },
-        // {
-        //   "id": 27,
-        //   "name": "Horror"
-        // },
-        // {
-        //   "id": 10402,
-        //   "name": "Music"
-        // },
-        // {
-        //   "id": 9648,
-        //   "name": "Mystery"
-        // },
-        // {
-        //   "id": 10749,
-        //   "name": "Romance"
-        // },
-        // {
-        //   "id": 878,
-        //   "name": "Science Fiction"
-        // },
-        // {
-        //   "id": 10770,
-        //   "name": "TV Movie"
-        // },
-        // {
-        //   "id": 53,
-        //   "name": "Thriller"
-        // },
-        // {
-        //   "id": 10752,
-        //   "name": "War"
-        // },
-        // {
-        //   "id": 37,
-        //   "name": "Western"
-        // }
-      ]
     }
   },
   computed: {
@@ -156,6 +77,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+
 .discover-filter{
   height: 586px;
   border-radius: 8px;
@@ -175,9 +98,27 @@ export default {
   .sortBySelect{
     display: flex;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 0.9em;
     height: 80px;
-    border-bottom: 1px solid #FFFFFF12
+    border-bottom: 1px solid #FFFFFF12;
+    select {
+      //margin: 40px;
+      padding: 0.7em;
+      border: none;
+      border-radius: 4px;
+      background: #2F363F;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+      color: #E5E5E5;
+      font-family: 'Montserrat';
+    }
+    select:focus{
+      outline: none;
+    }
+    option{
+      border-radius: 0 0 4px 4px;
+      background: #111419;
+      color: white;
+    }
   }
   .genres{
     display: flex;
@@ -195,6 +136,9 @@ export default {
       //input:checked ~ .checkmark {
       //  background-color: red;
       //}
+      input:checked:before{
+        background-color:green;
+      }
       input{
         float: right;
       }

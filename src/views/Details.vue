@@ -96,10 +96,11 @@ export default {
     }
   },
   mounted() {
-    this.getMovieDetails(this.$route.params.id)
+    this.getMovieDetails(this.$route.params.id).then((_)=> {
+      this.movieGenre = this.movieDetails.genres?.map(el => el.name).join(', ')
+    })
     this.getMovieRecommendation(this.$route.params.id)
     this.getMovieReviews(this.$route.params.id)
-    this.movieGenre = this.movieDetails.genres?.map(el => el.name).join(', ')
   },
   watch: {
     '$route.params.id': {
@@ -113,8 +114,7 @@ export default {
           this.getMovieDetails(this.$route.params.id)
           this.getMovieRecommendation(this.$route.params.id)
           this.getMovieReviews(this.$route.params.id)
-          // document.body.scrollTop = 0;
-          this.$nextTick(() => this.$el.querySelector(".img-backdrop").scrollIntoView({block: 'center', behavior: "smooth" }))
+          this.$nextTick(() => this.$el.querySelector(".img-backdrop").scrollIntoView({block: 'start', behavior: "smooth" }))
         }
       }
     }
@@ -147,16 +147,17 @@ export default {
 
 <style lang="scss" scoped>
 .img-backdrop{
+  //margin-top: -80px;
   height:480px;
   width:1440px;
   //background: rgba(0, 0, 0, 0.1) url("https://image.tmdb.org/t/p/original//srYya1ZlI97Au4jUYAktDe3avyA.jpg");
   //background-size: 1440px 400px;
   img{
-    z-index: 0;
     opacity: 0.2;
+    z-index: -1;
+    //background: rgba(0, 0, 0, 0.1);
     object-fit: cover;
     object-position: 0 0;
-    //background: rgba(0, 0, 0, 0.2);
   }
 
 }

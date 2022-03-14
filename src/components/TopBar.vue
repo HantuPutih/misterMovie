@@ -1,5 +1,5 @@
 <template>
-  <header :class="`nav-bar ${this.$route.name === 'details' ? 'transparent-nav' : ''}`">
+  <header class="nav-bar">
     <div class="navbar-inner">
       <img @click="gohome" height="31" src=".././assets/moovietime-logo.svg" alt="moovietime logo">
       <div class="search-input">
@@ -156,15 +156,9 @@ export default {
   background-color: #1E232B;
 }
 
-.transparent-nav{
-  //z-index: 0;
-  //position: fixed;
-  //top: 0;
-  //opacity: 0.5;
-}
 
 .nav-bar{
-
+  //z-index: 1;
   background-color: #292e35;
   width: 100%;
   display: flex;
@@ -186,18 +180,7 @@ export default {
       background-color: #24282e;
       height: 36px;
       grid-column: 4/10;
-      .simple-typeahead{
-        width: 85%;
-        color: #E5E5E5;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        border: none;
-        background-color: transparent;
-        height: 36px;
-        border-radius: 4px;
-      }
-      input[type=text]{
+      .simple-typeahead, input[type=text]{
         width: 85%;
         color: #E5E5E5;
         font-size: 14px;

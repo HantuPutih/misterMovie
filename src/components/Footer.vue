@@ -24,18 +24,26 @@ export default {
 <style lang="scss" scoped>
 
 .footer-container{
-  bottom:0;
-  background-color: #15191e;
-  height: 160px;
   width: 100%;
-  display: grid;
-  column-gap: 50px;
-  align-items: center;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  color: #929292;
-  text-align: center;
-  grid-template-columns: repeat(3, 1fr);
+  background-color: #15191e;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  .footer-limit{
+    width: 1440px;
+    bottom:0;
+    background-color: #15191e;
+    height: 160px;
+    display: grid;
+    column-gap: 50px;
+    align-items: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    color: #929292;
+    text-align: center;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
 }
 </style>

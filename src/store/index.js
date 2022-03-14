@@ -55,7 +55,7 @@ export default createStore({
     async getPopularMovie({commit}, payload) {
       //https://api.themoviedb.org/3/movie/popular?api_key=<<api_key>>&language=en-US&page=1
       const { data: {results} } = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.VUE_APP_API_KEY}`)
-      console.log(results)
+      // console.log(results)
       commit('SET_TRENDING_MOVIE', results)
     },
 

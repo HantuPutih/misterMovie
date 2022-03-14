@@ -14,7 +14,7 @@
                   ⭐ {{ slide.vote_average }}
                 </h5>
                 <h2>{{ slide.original_title }}</h2>
-                <h3>{{ slide.release_date?.split('-')[0] }} <span class="slider-silver-dot"></span> Sci fi</h3>
+                <h3>{{ slide.release_date?.split('-')[0] }} <span class="slider-silver-dot"></span> {{parseGenre(slide.genre_ids)}} </h3>
                 <p>
                  {{ slide.overview }}
                 </p>
@@ -109,11 +109,19 @@ export default {
     },
     onLoadMore() {
       this.payloadQueryString.page++
-      this.filterDiscoverMovie()()
+      this.filterDiscoverMovie()
+      this.$nextTick(() => this.$el.querySelector(".discover").scrollIntoView({block: 'start', behavior: "smooth" }))
+    },
+    parseGenre(arr) {
+      let sliderGenre =  this.genreList.find((genre)=> {
+        return arr.includes(genre.id)
+      })
+      return sliderGenre?.name
     }
   },
   computed: {
     ...mapState([
+      'genreList',
       'discoverMovie',
       'mvMovieCount',
       'trendingMovie'
@@ -182,7 +190,6 @@ export default {
   }
 }
 //carousel styling
-//carousel__slide carousel__slide--next
 .carousel__track > .carousel__slide--prev {
   opacity: 0.5;
 }
@@ -190,24 +197,26 @@ export default {
 .carousel__track > .carousel__slide--next {
   opacity: 0.5;
 }
-
+.carousel__pagination-button--active {
+  width: 60px !important;
+}
 .carousel__prev,
 .carousel__next {
   display: none !important;
-  background-color: var(--vc-nav-background-color);
-  border-radius: var(--vc-nav-width);
-  width: var(--vc-nav-width);
-  height: var(--vc-nav-width);
-  text-align: center;
-  font-size: calc(var(--vc-nav-width) * 2 / 3);
-  padding: 0;
-  color: var(--vc-nav-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  border: 0;
-  cursor: pointer;
+  //background-color: var(--vc-nav-background-color);
+  //border-radius: var(--vc-nav-width);
+  //width: var(--vc-nav-width);
+  //height: var(--vc-nav-width);
+  //text-align: center;
+  //font-size: calc(var(--vc-nav-width) * 2 / 3);
+  //padding: 0;
+  //color: var(--vc-nav-color);
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
+  //position: absolute;
+  //border: 0;
+  //cursor: pointer;
 }
 
 .carousel__prev {
@@ -236,10 +245,10 @@ export default {
   --vc-nav-background-color: var(--vc-clr-primary);
 
   /* Pagination */
-  --vc-pgn-width: 10px;
-  --vc-pgn-height: 5px;
-  --vc-pgn-margin: 5px;
-  --vc-pgn-border-radius: 0;
+  --vc-pgn-width: 12px;
+  --vc-pgn-height: 12px;
+  --vc-pgn-margin: 10px;
+  --vc-pgn-border-radius: 6px;
   --vc-pgn-background-color: var(--vc-clr-secondary);
   --vc-pgn-active-color: var(--vc-clr-primary);
 }
@@ -282,6 +291,7 @@ export default {
   display: flex;
   justify-content: center;
   list-style: none;
+  margin-top: 3em;
 }
 .carousel__pagination-button {
   margin: var(--vc-pgn-margin);

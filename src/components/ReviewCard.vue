@@ -9,7 +9,7 @@
           {{review.author_details.username}}
         </h5>
         <h6>
-          {{parseDate(review.created_at)}}
+          {{new Date(review.created_at).toLocaleDateString('en-us', { year:"numeric", month:"long", day:"numeric"}) }}
         </h6>
       </div>
     </div>
@@ -21,8 +21,12 @@
     </div>
   </div>
   <div class="reviewer-text">
-    <p>
+    <p v-if="showMore">
+      {{review.content}}
+    </p >
+    <p v-else>
       {{parseReview(review.content)}}
+    <span @click="onReadTheRest" v-if="isSeeMore">read the rest.</span>
     </p>
   </div>
 </template>
@@ -35,14 +39,29 @@ export default {
     review: {
       type: Object,
       default: () => {}
+    },
+
+  },
+  data(){
+    return {
+      showMore: false
     }
   },
   methods:{
+    onReadTheRest() {
+      this.showMore = true
+    },
     parseDate(date) {
       return date
     },
     parseReview(review){
-      return review?.slice(0, 600) + ' ...'
+      this.isSeeMore = false
+      if (review.length > 600) {
+        this.isSeeMore = true
+        return review?.slice(0, 600) + ' ...'
+      } else {
+        return review
+      }
     }
   }
 
@@ -102,5 +121,10 @@ export default {
   font-weight: 400;
   line-height: 20px;
   color: #000000;
+  span{
+    color: #E74C3C;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 </style>
