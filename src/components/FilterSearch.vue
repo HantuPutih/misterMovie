@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       selectedGenre: [],
-      selectedSortBy: 'popularity.desc',
+      selectedSortBy: 'vote_average.desc',
       sortBys:
         [
           {

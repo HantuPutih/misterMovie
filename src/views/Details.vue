@@ -142,15 +142,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '.././assets/style/moviecard.scss';
+
 .img-backdrop{
   //margin-top: -80px;
   height:480px;
   width:1440px;
-  //background: rgba(0, 0, 0, 0.1) url("https://image.tmdb.org/t/p/original//srYya1ZlI97Au4jUYAktDe3avyA.jpg");
-  //background-size: 1440px 400px;
   img{
     opacity: 0.2;
-    //background: rgba(0, 0, 0, 0.1);
     object-fit: cover;
     object-position: 0 0;
   }

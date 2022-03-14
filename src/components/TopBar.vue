@@ -7,7 +7,7 @@
         <SimpleTypeahead
           id="typeahead_id"
           placeholder="Find movie"
-          :items="searhItems"
+          :items="searchItems"
           :minInputLength="1"
           :itemProjection="(item)=> item.title"
           @selectItem="onSelect"
@@ -50,7 +50,7 @@ export default {
   },
   data() {
     return {
-     searhItems: [],
+     searchItems: [],
     }
   },
   mounted() {
@@ -83,7 +83,7 @@ export default {
     getItems(searchValue) {
       if (searchValue.input) {
         this.searchMovie(searchValue.input).then((_) => {
-          this.searhItems = this.searchResult
+          this.searchItems = this.searchResult
         })
       }
     },

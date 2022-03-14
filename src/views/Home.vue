@@ -178,6 +178,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+@import '.././assets/style/moviecard.scss';
 .slider {
   height: 428px;
   margin-top: 2em;
@@ -280,14 +281,14 @@ export default {
         }
       }
 
-      .discover-card{
-        display: flex;
-        flex-wrap: wrap;
-        .cards{
-          width: 220px;
-          margin: 0 .6em .7em 0.6em;
-        }
-      }
+      //.discover-card{
+      //  display: flex;
+      //  flex-wrap: wrap;
+      //  .cards{
+      //    width: 220px;
+      //    margin: 0 .6em .7em 0.6em;
+      //  }
+      //}
     }
   }
 }
