@@ -1,15 +1,18 @@
 # mistermovie
 
-## Project setup
+## How to Run in Local
+
+### 1. Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 2. Compiles and hot-reloads for development
 ```
 npm run serve
 ```
 
+### For Build
 ### Compiles and minifies for production
 ```
 npm run build

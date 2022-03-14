@@ -1,7 +1,7 @@
 <template>
   <header class="nav-bar">
     <div class="navbar-inner">
-      <img @click="gohome" height="31" src=".././assets/moovietime-logo.svg" alt="moovietime logo">
+      <img @click="goHome" height="31" src=".././assets/moovietime-logo.svg" alt="moovietime logo">
       <div class="search-input">
         <img height="28" src=".././assets/movie-icon.svg" alt="moovietime logo">
         <SimpleTypeahead
@@ -41,7 +41,7 @@
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css';
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import {mapActions, mapState} from "vuex";
-import _ from 'lodash'
+
 export default {
   name: 'topbar',
   components: {
@@ -50,14 +50,10 @@ export default {
   },
   data() {
     return {
-      categories: ['ACTION', 'ADVENTURE', 'ANIMATION', 'COMEDY','CRIME', 'DOCUMENTARY', 'DRAMA', 'FAMILY', 'FANTASY', 'HISTORY', 'HORROR'],
      searhItems: [],
     }
   },
   mounted() {
-    if (this.$route.name === 'details') {
-      console.log(this.$route.name)
-    }
     this.getMoviesGenre()
   },
   computed: {
@@ -77,32 +73,23 @@ export default {
     blurAutoComplete(){
 
     },
+    debounce(func, timeout = 1){
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+      };
+    },
     getItems(searchValue) {
-      // _.debounce(() => {
-      //   // if (searchValue.input) {
-      //     console.log(searchValue.input)
-      //     console.log('Debounce!')
-      //   // }
-      // }, 0)
       if (searchValue.input) {
         this.searchMovie(searchValue.input).then((_) => {
           this.searhItems = this.searchResult
         })
       }
     },
-    gohome() {
+    goHome() {
       this.$router.push('/')
     },
-    // onSearch() {
-    //   console.log('de')
-    //   _.debounce(() => {
-    //   if (this.searchBox) {
-    //   console.log(this.searchBox)
-    //   console.log('Debounce!')
-    //   }
-    //   }, 2000)
-    //
-    // }
   }
 }
 </script>
@@ -158,7 +145,6 @@ export default {
 
 
 .nav-bar{
-  //z-index: 1;
   background-color: #292e35;
   width: 100%;
   display: flex;

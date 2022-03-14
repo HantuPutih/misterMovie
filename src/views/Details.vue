@@ -22,7 +22,7 @@
         </div>
         <div class="movie-info">
           <div class="rating">
-            ⭐ {{movieDetails.vote_average}}
+            <img width="30" height="30" src=".././assets/star.svg" alt="star"> &nbsp; {{movieDetails.vote_average}}
           </div>
           <div class="movie-info-text right-border user-score">
             <p class="sub-title">USER SCORE</p>
@@ -35,7 +35,6 @@
           <div class="movie-info-text  right-border lang">
             <p class="sub-title">LANGUAGE</p>
             <p class="sub-content">{{movieDetails.spoken_languages?.length ? movieDetails.spoken_languages[0].english_name : '-'}}</p>
-<!--            <p v-for="(lang,idx) in movieDetails.spoken_languages" :key="idx" class="sub-content">{{lang.english_name}}</p>-->
           </div>
           <div class="movie-info-text  right-border budget">
             <p class="sub-title">BUDGET</p>
@@ -108,9 +107,6 @@ export default {
       immediate: true,
       handler() {
         if (this.$route.name === 'details') {
-          // this.$store.commit('SET_MOVIE_DETAIL', {})
-          // this.$store.commit('SET_MOVIE_RECOMMENDATION', [])
-          // this.$store.commit('SET_MOVIE_REVIEWS', [])
           this.getMovieDetails(this.$route.params.id)
           this.getMovieRecommendation(this.$route.params.id)
           this.getMovieReviews(this.$route.params.id)
@@ -154,7 +150,6 @@ export default {
   //background-size: 1440px 400px;
   img{
     opacity: 0.2;
-    z-index: -1;
     //background: rgba(0, 0, 0, 0.1);
     object-fit: cover;
     object-position: 0 0;
@@ -170,7 +165,6 @@ export default {
 }
 .overview-wrapper{
   z-index: 2;
-  //opacity: 1;
   .overview{
     margin-top: -49.5em;
     margin-bottom: 20.5em;
@@ -183,7 +177,6 @@ export default {
     grid-template-areas: "movie-img-container title-container ."
                          "movie-img-container movie-info ."
                          "movie-img-container movie-overview .";
-                         //"movie-img-container movie-overview .";
     .movie-img-container {
       margin-left: 2em;
       filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.25));
@@ -227,13 +220,7 @@ export default {
         color: #E5E5E5;
 
       }
-      //.user-score{
-      //  padding-left: 0 !important;
-      //}
       .movie-info-text{
-        //overflow: auto;
-        //max-height: 6em;
-
         display: flex;
         justify-content: center;
 
@@ -258,21 +245,6 @@ export default {
       .right-border{
         border-right: 1px solid rgba(255, 255, 255, 0.2);
       }
-      .status{
-
-      }
-      .lang{
-
-      }
-      .bugdet{
-
-      }
-      //.production{
-      //  .text-production{
-      //    overflow: auto;
-      //    max-height: 80px;
-      //  }
-      //}
     }
     .movie-overview{
       grid-area: movie-overview;
@@ -288,7 +260,6 @@ export default {
         font-size: 14px;
         color: #000000;
         overflow: auto;
-        //padding-right: 15em;
       }
     }
   }

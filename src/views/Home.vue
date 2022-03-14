@@ -1,27 +1,9 @@
 <template>
   <article>
     <div class="slider">
-<!--      :autoplay="5000" :items-to-show="1.5"-->
       <carousel wrapAround :autoplay="5000" :items-to-show="2.3">
         <slide v-for="slide in trendingMovie" :key="slide">
-          <div class="slider-card-container">
-            <div class="slider-image-container">
-              <img width="243.08" height="364.61" :src="`https://image.tmdb.org/t/p/original/${slide.poster_path}`" alt="movie poster">
-            </div>
-            <div class="slider-info-container">
-              <div class="slider-info-inner-container">
-                <h5>
-                  ⭐ {{ slide.vote_average }}
-                </h5>
-                <h2>{{ slide.original_title }}</h2>
-                <h3>{{ slide.release_date?.split('-')[0] }} <span class="slider-silver-dot"></span> {{parseGenre(slide.genre_ids)}} </h3>
-                <p>
-                 {{ slide.overview }}
-                </p>
-              </div>
-
-            </div>
-          </div>
+          <Carouselcard :slide="slide"/>
         </slide>
         <template #addons>
           <navigation />
@@ -67,9 +49,12 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import FilterSearch from "@/components/FilterSearch";
 import Moviecard from "@/components/MovieCard";
 import {mapActions, mapState} from "vuex";
+import Carouselcard from "@/components/CarouselCard";
+
 export default {
   name: 'home',
   components: {
+    Carouselcard,
     Moviecard,
     FilterSearch,
     Carousel,
@@ -96,13 +81,74 @@ export default {
       'getDiscoverMovie',
       'getMoviesGenre'
     ]),
+    SortByComparer(prop, comparer) {
+      function compare( a, b ) {
+        if(comparer === 'asc') {
+          if ( a[prop] < b[prop] ){
+            return -1;
+          }
+          if ( a[prop] > b[prop] ){
+            return 1;
+          }
+          return 0;
+        } else if(comparer === 'dsc') {
+          if ( a[prop] > b[prop] ){
+            return -1;
+          }
+          if ( a[prop] < b[prop] ){
+            return 1;
+          }
+          return 0;
+        }
+      }
+      this.discoverMovie.sort(compare);
+    },
     emitSelectedSortBy(selected) {
-      this.payloadQueryString.sort_by = selected
-      this.filterDiscoverMovie()
+      switch(selected) {
+        case 'popularity.asc':
+            this.SortByComparer( 'popularity', 'asc')
+          break;
+        case 'popularity.desc':
+            this.SortByComparer( 'popularity', 'dsc')
+          break;
+        case 'release_date.asc':
+            this.SortByComparer( 'release_date', 'asc')
+          break;
+        case 'release_date.desc':
+            this.SortByComparer( 'release_date', 'dsc')
+          break;
+        case 'vote_average.asc':
+            this.SortByComparer( 'vote_average', 'asc')
+          break;
+        case 'vote_average.desc':
+            this.SortByComparer( 'vote_average', 'dsc')
+          break;
+        default:
+          break
+      }
+      // to hit tmdb api
+      // this.payloadQueryString.sort_by = selected
+      // this.filterDiscoverMovie()
     },
     emitSelectedGenre(arr){
-      this.payloadQueryString.with_genres = arr.join(',')
-      this.filterDiscoverMovie()
+      let filtered = []
+        if (arr.length) {
+          this.tempMovies.forEach(movie => {
+            let matchArr = arr.filter(function (obj) {
+              return movie.genre_ids.indexOf(obj) !== -1;
+            });
+            if (matchArr.length) {
+              filtered.push(movie)
+            }
+          })
+        } else {
+          filtered = [...this.tempMovies]
+        }
+      this.$store.commit('SET_DISCOVER_MOVIE', filtered)
+
+      // to hit tmdb api
+      // this.payloadQueryString.with_genres = arr.join(',')
+      // this.filterDiscoverMovie()
     },
     filterDiscoverMovie() {
       this.getDiscoverMovie(this.payloadQueryString)
@@ -112,19 +158,15 @@ export default {
       this.filterDiscoverMovie()
       this.$nextTick(() => this.$el.querySelector(".discover").scrollIntoView({block: 'start', behavior: "smooth" }))
     },
-    parseGenre(arr) {
-      let sliderGenre =  this.genreList.find((genre)=> {
-        return arr.includes(genre.id)
-      })
-      return sliderGenre?.name
-    }
+
   },
   computed: {
     ...mapState([
       'genreList',
       'discoverMovie',
       'mvMovieCount',
-      'trendingMovie'
+      'trendingMovie',
+      'tempMovies'
     ])
   },
 }
@@ -132,63 +174,7 @@ export default {
 
 <style lang="scss">
 
-.slider-card-container{
-  display: flex;
-  .slider-image-container{
-    width: 243.08px;
-    height: 364.61px;
-    //background-color: lightgrey;
-  }
-  .slider-info-container{
-    padding: 1em 0 1em 0;
-    //max-height: 324.1px;
-    .slider-info-inner-container{
-      overflow: auto;
-      padding: 1em 2em;
-      max-width: 20em;
-      height: 324.1px;
-      background-color: #000000;
-      overflow: auto;
 
-      color: #FFFFFF;
-      text-align: left !important;
-      h5{
-        padding: 0.4em 0;
-        font-weight: 700;
-        font-size: 18px;
-      }
-      h2{
-        padding: .2em 0 .4em 0;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 28px;
-      }
-      h3{
-        display: flex;
-        align-items: center;
-        padding: .2em 0 .8em 0;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        .slider-silver-dot{
-          margin: 0 .5em 0 .5em;
-          height: 6.48px;
-          width: 6.48px;
-          border-radius: 50%;
-          background-color: rgba(255, 255, 255, 0.5);;
-          display: inline-block;
-        }
-      }
-      p{
-        //min-height: 14.5em;
-        font-weight: 400;
-        line-height: 18px;
-        font-size: 12px;
-      }
-    }
-
-  }
-}
 //carousel styling
 .carousel__track > .carousel__slide--prev {
   opacity: 0.5;
@@ -203,20 +189,6 @@ export default {
 .carousel__prev,
 .carousel__next {
   display: none !important;
-  //background-color: var(--vc-nav-background-color);
-  //border-radius: var(--vc-nav-width);
-  //width: var(--vc-nav-width);
-  //height: var(--vc-nav-width);
-  //text-align: center;
-  //font-size: calc(var(--vc-nav-width) * 2 / 3);
-  //padding: 0;
-  //color: var(--vc-nav-color);
-  //display: flex;
-  //justify-content: center;
-  //align-items: center;
-  //position: absolute;
-  //border: 0;
-  //cursor: pointer;
 }
 
 .carousel__prev {
@@ -311,12 +283,8 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-//src/assets/styles/carousel.css
-
-
 
 .slider {
-  //background-color: plum;
   height: 428px;
   margin-top: 2em;
   padding-top: 1em;

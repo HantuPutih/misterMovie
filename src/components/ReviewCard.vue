@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="review-rating">
-      ⭐
+      <img width="20" height="20" src=".././assets/star.svg" alt="star">
       <h3>
         {{review.author_details.rating || 0}}
       </h3>

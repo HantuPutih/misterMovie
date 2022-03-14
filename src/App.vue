@@ -22,10 +22,6 @@ export default {
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  /*text-align: center;*/
-  /*color: #2c3e50;*/
-  /*margin-top: 60px;*/
 }
 body{
   background-color: #1e232a;
@@ -39,7 +35,6 @@ body{
 }
 
 article{
-  /*padding-bottom: 160px;*/
   width: 1440px;
   margin: auto;
 }

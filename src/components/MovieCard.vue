@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import { mapState} from "vuex";
 
 export default {
   name: 'moviecard',
@@ -62,7 +62,6 @@ export default {
     ])
   },
   mounted() {
-    // this.$nextTick(() => document.getElementById("#top-nav").scrollIntoView({block: 'center', behavior: "smooth" }))
     this.movieGenre = this.genreList.filter((genre)=> {
       return this.movie.genre_ids.includes(genre.id)
     })
@@ -124,7 +123,6 @@ export default {
       font-weight: 600;
       line-height: 29px;
       height: 5em;
-      //background-color: red;
     }
     .card-genre{
       padding-top: 0.5em;
@@ -135,10 +133,8 @@ export default {
         text-align: center;
 
       }
-      //background-color: yellow;
     }
     .card-btn{
-      //background-color: blue;
       height: 6em;
       align-items: center;
       .btn-view{
