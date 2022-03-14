@@ -93,16 +93,13 @@ export default {
   data() {
     return {
       movieGenre: [],
-      movieId: this.$route.params.id
     }
   },
   mounted() {
-    this.getMovieDetails(this.movieId)
-    this.getMovieRecommendation(this.movieId)
-    this.getMovieReviews(this.movieId)
+    this.getMovieDetails(this.$route.params.id)
+    this.getMovieRecommendation(this.$route.params.id)
+    this.getMovieReviews(this.$route.params.id)
     this.movieGenre = this.movieDetails.genres?.map(el => el.name).join(', ')
-    // document.body.scrollTop = 0;
-
   },
   watch: {
     '$route.params.id': {
@@ -115,7 +112,7 @@ export default {
           // this.$store.commit('SET_MOVIE_REVIEWS', [])
           this.getMovieDetails(this.$route.params.id)
           this.getMovieRecommendation(this.$route.params.id)
-          this.getMovieReviews(this.movieId)
+          this.getMovieReviews(this.$route.params.id)
           // document.body.scrollTop = 0;
           this.$nextTick(() => this.$el.querySelector(".img-backdrop").scrollIntoView({block: 'center', behavior: "smooth" }))
         }

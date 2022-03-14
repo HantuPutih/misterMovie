@@ -10,7 +10,8 @@ export default createStore({
       mvMovieCount: 0,
       movieDetails: {},
       movieRecommendation:[],
-      movieReviews: []
+      movieReviews: [],
+      searchResult: []
     }
   },
   mutations: {
@@ -19,7 +20,8 @@ export default createStore({
     COUNT_PLUS_MY_MOVIE_COUNT: (state) => state.mvMovieCount++,
     SET_MOVIE_DETAIL: (state, payload) => state.movieDetails = payload,
     SET_MOVIE_RECOMMENDATION: (state, payload) => state.movieRecommendation = payload,
-    SET_MOVIE_REVIEWS: (state, payload) => state.movieReviews = payload
+    SET_MOVIE_REVIEWS: (state, payload) => state.movieReviews = payload,
+    SET_SEARCH_RESULT: (state, payload) => state.searchResult = payload
   },
   actions: {
     async getDiscoverMovie(context, payload) {
@@ -38,13 +40,14 @@ export default createStore({
       const { data } = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.VUE_APP_API_KEY}&language=en-US`)
       commit('SET_GENRE_LIST',data.genres)
     },
-    async searchMovie({commit}, payload) {
+    async searchMovie({commit}, searchValue) {
       //https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
       const {data} = await axios({
         method: 'GET',
-        url: `https://api.themoviedb.org/3/search/movie?api_key=<${process.env.VUE_APP_API_KEY}&language=en-US&page=1&include_adult=false`
-
+        url: `https://api.themoviedb.org/3/search/movie?api_key=${process.env.VUE_APP_API_KEY}&language=en-US&query=${searchValue}`
       })
+      console.log(data.results.slice(0,7))
+      commit('SET_SEARCH_RESULT', data.results)
     },
     //details page
     async getMovieDetails({commit},id){

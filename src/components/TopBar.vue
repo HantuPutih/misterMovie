@@ -4,7 +4,17 @@
       <img @click="gohome" height="31" src=".././assets/moovietime-logo.svg" alt="moovietime logo">
       <div class="search-input">
         <img height="28" src=".././assets/movie-icon.svg" alt="moovietime logo">
-        <input  v-model="searchBox" type="text" placeholder="Find movie">
+        <SimpleTypeahead
+          id="typeahead_id"
+          placeholder="Find movie"
+          :items="searhItems"
+          :minInputLength="1"
+          :itemProjection="(item)=> item.title"
+          @selectItem="onSelect"
+          @onInput="getItems"
+          @onBlur="blurAutoComplete"
+        >
+        </SimpleTypeahead>
         <img @click="onSearch" class="search-logo" height="15" src=".././assets/search-icon.svg" alt="moovietime logo">
       </div>
       <div class="nav-container">
@@ -27,13 +37,21 @@
 </template>
 
 <script>
-import _ from 'lodash'
+
+import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css';
+import SimpleTypeahead from 'vue3-simple-typeahead'
+import {mapActions, mapState} from "vuex";
+
 export default {
   name: 'topbar',
+  components: {
+    // Autocomplete
+    SimpleTypeahead
+  },
   data() {
     return {
-      searchBox: '',
       categories: ['ACTION', 'ADVENTURE', 'ANIMATION', 'COMEDY','CRIME', 'DOCUMENTARY', 'DRAMA', 'FAMILY', 'FANTASY', 'HISTORY', 'HORROR'],
+     searhItems: [],
     }
   },
   mounted() {
@@ -41,25 +59,84 @@ export default {
       console.log(this.$route.name)
     }
   },
+  computed: {
+    ...mapState([
+      'searchResult'
+    ])
+  },
   methods: {
+    ...mapActions([
+      'searchMovie'
+    ]),
+    onSelect(e) {
+      this.$router.push(`/details/${e.id}`)
+    },
+    blurAutoComplete(){
+
+    },
+    getItems(searchValue) {
+      if (searchValue.input) {
+        this.searchMovie(searchValue.input).then((_) => {
+          this.searhItems = this.searchResult
+        })
+      }
+    },
     gohome() {
       this.$router.push('/')
     },
-    onSearch() {
-        console.log('de')
-      // _.debounce(() => {
-        // if (this.searchBox) {
-          // console.log(this.searchBox)
-          console.log('Debounce!')
-        // }
-      // }, 2000)
-
-    }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+
+.simple-typeahead[data-v-04d98098] {
+  position: relative;
+  width: 100%;
+}
+.simple-typeahead > input[data-v-04d98098] {
+  margin-bottom: 0;
+}
+.simple-typeahead .simple-typeahead-list[data-v-04d98098] {
+  position: absolute;
+  width: 120%;
+  left: -10%;
+  border: none;
+  max-height: 400px;
+  overflow-y: auto;
+  border-bottom: 0.1rem solid #1E232B;
+  z-index: 9;
+  color: #E5E5E5;
+  border-radius: 0px 0px 8px 8px;
+}
+.simple-typeahead .simple-typeahead-list .simple-typeahead-list-header[data-v-04d98098] {
+  background-color: #1E232B;
+  padding: 0.6rem 1rem;
+  border-bottom: 0.1rem solid #1E232B;
+  border-left: 0.1rem solid #1E232B;
+  border-right: 0.1rem solid #1E232B;
+}
+.simple-typeahead .simple-typeahead-list .simple-typeahead-list-footer[data-v-04d98098] {
+  background-color: #1E232B;
+  padding: 0.6rem 1rem;
+  border-left: 0.1rem solid #1E232B;
+  border-right: 0.1rem solid #1E232B;
+}
+.simple-typeahead .simple-typeahead-list .simple-typeahead-list-item[data-v-04d98098] {
+  cursor: pointer;
+  background-color: #1E232B;
+  padding: 0.6rem 1rem;
+  border-bottom: 0.1rem solid #1E232B;
+  border-left: 0.1rem solid #1E232B;
+  border-right: 0.1rem solid #1E232B;
+}
+.simple-typeahead .simple-typeahead-list .simple-typeahead-list-item[data-v-04d98098]:last-child {
+  border-bottom: none;
+}
+.simple-typeahead .simple-typeahead-list .simple-typeahead-list-item.simple-typeahead-list-item-active[data-v-04d98098] {
+  background-color: #1E232B;
+}
+
 .transparent-nav{
   //z-index: 0;
   //position: fixed;
@@ -90,7 +167,17 @@ export default {
       background-color: #24282e;
       height: 36px;
       grid-column: 4/10;
-
+      .simple-typeahead{
+        width: 85%;
+        color: #E5E5E5;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        border: none;
+        background-color: transparent;
+        height: 36px;
+        border-radius: 4px;
+      }
       input[type=text]{
         width: 85%;
         color: #E5E5E5;
@@ -132,12 +219,12 @@ export default {
         margin-top:1em;
         min-width: 153px;
         z-index: 1;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
         border-radius: 6px;
         font-size: 12px;
         font-style: normal;
         font-weight: 600;
-        letter-spacing: 0em;
+        letter-spacing: 0;
         transition: all .3s linear;
 
         a{
