@@ -15,7 +15,7 @@
           @onBlur="blurAutoComplete"
         >
         </SimpleTypeahead>
-        <img @click="onSearch" class="search-logo" height="15" src=".././assets/search-icon.svg" alt="moovietime logo">
+        <img class="search-logo" height="15" src=".././assets/search-icon.svg" alt="moovietime logo">
       </div>
       <div class="nav-container">
         <div class="hover-dropdown">
@@ -93,57 +93,11 @@ export default {
   }
 }
 </script>
-
 <style lang="scss">
+@import '.././assets/style/typeahead.scss';
+</style>
 
-.simple-typeahead[data-v-04d98098] {
-  position: relative;
-  width: 100%;
-}
-.simple-typeahead > input[data-v-04d98098] {
-  margin-bottom: 0;
-}
-.simple-typeahead .simple-typeahead-list[data-v-04d98098] {
-  position: absolute;
-  width: 120%;
-  left: -10%;
-  border: none;
-  max-height: 400px;
-  overflow-y: auto;
-  border-bottom: 0.1rem solid #1E232B;
-  z-index: 9;
-  color: #E5E5E5;
-  border-radius: 0px 0px 8px 8px;
-}
-.simple-typeahead .simple-typeahead-list .simple-typeahead-list-header[data-v-04d98098] {
-  background-color: #1E232B;
-  padding: 0.6rem 1rem;
-  border-bottom: 0.1rem solid #1E232B;
-  border-left: 0.1rem solid #1E232B;
-  border-right: 0.1rem solid #1E232B;
-}
-.simple-typeahead .simple-typeahead-list .simple-typeahead-list-footer[data-v-04d98098] {
-  background-color: #1E232B;
-  padding: 0.6rem 1rem;
-  border-left: 0.1rem solid #1E232B;
-  border-right: 0.1rem solid #1E232B;
-}
-.simple-typeahead .simple-typeahead-list .simple-typeahead-list-item[data-v-04d98098] {
-  cursor: pointer;
-  background-color: #1E232B;
-  padding: 0.6rem 1rem;
-  border-bottom: 0.1rem solid #1E232B;
-  border-left: 0.1rem solid #1E232B;
-  border-right: 0.1rem solid #1E232B;
-}
-.simple-typeahead .simple-typeahead-list .simple-typeahead-list-item[data-v-04d98098]:last-child {
-  border-bottom: none;
-}
-.simple-typeahead .simple-typeahead-list .simple-typeahead-list-item.simple-typeahead-list-item-active[data-v-04d98098] {
-  background-color: #1E232B;
-}
-
-
+<style lang="scss" scoped>
 .nav-bar{
   background-color: #292e35;
   width: 100%;
@@ -161,34 +115,18 @@ export default {
 
     .search-input{
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-around;
       align-items: center;
       background-color: #24282e;
       height: 36px;
       grid-column: 4/10;
-      .simple-typeahead, input[type=text]{
-        width: 85%;
-        color: #E5E5E5;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        border: none;
-        background-color: transparent;
-        height: 36px;
-        border-radius: 4px;
-      }
 
-      input[type=text]:focus {
-        outline: none;
+      img{
+        padding: 0 .5em 0 .5em;
       }
-      ::placeholder {
-        color: #E5E5E5;
-        font-size: 16px;
-        letter-spacing: 0.1em;
-      }
-
       .search-logo{
-        cursor: pointer;
+        padding-right: 1em;
+        cursor: default;
       }
     }
     .nav-container{

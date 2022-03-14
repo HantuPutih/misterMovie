@@ -19,7 +19,7 @@ export default createStore({
   },
   mutations: {
     SET_DISCOVER_MOVIE: (state, payload) => state.discoverMovie = payload,
-    SET_FILTERED_MOVIE_BY_GENRE: (state, payload) => state.tempMovies = [...payload],
+    SET_TEMP_MOVIES: (state, payload) => state.tempMovies = [...payload],
     SET_GENRE_LIST: (state, payload) => state.genreList = payload,
     COUNT_PLUS_MY_MOVIE_COUNT: (state) => state.mvMovieCount++,
     SET_MOVIE_DETAIL: (state, payload) => state.movieDetails = payload,
@@ -40,7 +40,7 @@ export default createStore({
         params: payload,
       })
       context.commit('SET_DISCOVER_MOVIE', data.results)
-      context.commit('SET_FILTERED_MOVIE_BY_GENRE', data.results)
+      context.commit('SET_TEMP_MOVIES', data.results)
     },
     async getMoviesGenre({commit}) {
       const { data: { genres} } = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.VUE_APP_API_KEY}&language=en-US`)
@@ -53,8 +53,7 @@ export default createStore({
       })
       commit('SET_SEARCH_RESULT', data.results)
     },
-
-    async getPopularMovie({commit}, payload) {
+    async getPopularMovie({commit}) {
       const { data: {results} } = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.VUE_APP_API_KEY}`)
       commit('SET_TRENDING_MOVIE', results)
     },

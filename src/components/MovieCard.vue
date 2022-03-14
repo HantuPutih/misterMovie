@@ -51,7 +51,6 @@ export default {
       this.$store.commit('COUNT_PLUS_MY_MOVIE_COUNT')
     },
     onMovie() {
-      // console.log('masuk')
       this.$router.push(`/details/${this.movie.id}`)
     },
 
