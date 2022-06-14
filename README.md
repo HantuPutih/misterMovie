@@ -25,3 +25,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### deploy web (not working 100%)
+https://waktunyanonton-69c60.web.app/
